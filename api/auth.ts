@@ -1,4 +1,5 @@
 import { req } from "./https";
+
 interface loginData {
   email: string;
   password: string;
@@ -8,7 +9,8 @@ interface registerData {
   email: string;
   password: string;
 }
-const login = {
+
+export const useAuth = {
   apiPostLogin(data: loginData) {
     return req("post", "/login", data);
   },
@@ -16,5 +18,3 @@ const login = {
     return req("post", "/register", data);
   },
 };
-
-export default login;
