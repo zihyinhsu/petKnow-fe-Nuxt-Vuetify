@@ -34,6 +34,7 @@
             <v-window v-model="tab">
               <v-window-item v-model="tab" value="login">
                 <v-form :model="loginData" @submit.prevent>
+                  <br />
                   <v-text-field
                     v-model="loginData.email"
                     :rules="rules"
@@ -60,6 +61,7 @@
 
               <v-window-item value="register">
                 <v-form @submit.prevent>
+                  <br />
                   <v-text-field
                     bg-color="white"
                     :rules="rules"
