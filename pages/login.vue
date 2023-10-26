@@ -1,93 +1,133 @@
 <template>
-  <div class="d-flex align-center justify-center fit100">
-    <div style="width: 400px" class="d-flex align-center">
-      <v-card color="grey-accent-4">
-        <v-tabs v-model="tab" color="green-accent-4" align-tabs="center">
-          <v-tab value="login">登入</v-tab>
-          <v-tab value="register">註冊</v-tab>
-          <v-tab value="three">忘記密碼</v-tab>
-        </v-tabs>
+  <v-row class="fit100">
+    <v-col cols="4" class="center">
+      <div class="text-center">
+        <!-- <v-btn color="red-darken-2" @click="loginFailedBar = false">
+          登入失敗！
+        </v-btn> -->
+        <v-snackbar v-model="loginFailedBar" multi-line>
+          登入失敗！
+          <template #actions>
+            <v-btn color="red" variant="text" @click="loginFailedBar = false">
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
+        <v-snackbar v-model="registerResultBar" multi-line>
+          {{ registerReason }}
+          <template #actions>
+            <v-btn color="red" variant="text" @click="loginFailedBar = false">
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
+      </div>
+      <div style="width: 400px" class="d-flex align-center justify-center">
+        <v-card color="grey-accent-4">
+          <v-tabs v-model="tab" color="green-accent-4" align-tabs="center">
+            <v-tab value="login">登入</v-tab>
+            <v-tab value="register">註冊</v-tab>
+            <v-tab value="three">忘記密碼</v-tab>
+          </v-tabs>
 
-        <v-card-text>
-          <v-window v-model="tab">
-            <v-window-item v-model="tab" value="login">
-              <v-card>
-                <v-sheet width="300" class="mx-auto">
-                  <v-form @submit.prevent>
-                    <v-text-field
-                      label="Email"
-                      variant="outlined"
-                    ></v-text-field>
-                    <v-text-field
-                      label="密碼"
-                      type="password"
-                      variant="outlined"
-                    ></v-text-field>
-                    <v-btn
-                      type="submit"
-                      block
-                      class="mt-2"
-                      @click="handleRegister"
-                      >登入</v-btn
-                    >
-                  </v-form>
-                </v-sheet>
-              </v-card>
-            </v-window-item>
+          <v-card-text>
+            <v-window v-model="tab">
+              <v-window-item v-model="tab" value="login">
+                <v-form :model="loginData" @submit.prevent>
+                  <v-text-field
+                    v-model="loginData.email"
+                    :rules="rules"
+                    placeholder="johndoe@gmail.com"
+                    label="Email"
+                    variant="outlined"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model:value="loginData.password"
+                    label="密碼"
+                    type="password"
+                    variant="outlined"
+                  ></v-text-field>
+                  <v-btn
+                    type="submit"
+                    block
+                    variant="tonal"
+                    color="green-accent-4"
+                    @click="handleLogin"
+                    >登入</v-btn
+                  >
+                </v-form>
+              </v-window-item>
 
-            <v-window-item value="register">
-              <v-card>
-                <v-sheet width="100%" class="mx-auto">
-                  <v-form @submit.prevent>
-                    <v-text-field
-                      bg-color="white"
-                      :rules="rules"
-                      label="輸入姓名"
-                      variant="outlined"
-                    ></v-text-field>
-                    <v-text-field
-                      bg-color="white"
-                      :rules="rules"
-                      label="Email"
-                      variant="outlined"
-                    ></v-text-field>
-                    <v-text-field
-                      :rules="rules"
-                      label="Password"
-                      variant="outlined"
-                    ></v-text-field>
+              <v-window-item value="register">
+                <v-form @submit.prevent>
+                  <v-text-field
+                    bg-color="white"
+                    :rules="rules"
+                    label="輸入姓名"
+                    variant="outlined"
+                  ></v-text-field>
+                  <v-text-field
+                    bg-color="white"
+                    :rules="rules"
+                    label="Email"
+                    variant="outlined"
+                  ></v-text-field>
+                  <v-text-field
+                    :rules="rules"
+                    label="Password"
+                    variant="outlined"
+                  ></v-text-field>
 
-                    <v-btn
-                      type="submit"
-                      block
-                      class="mt-2"
-                      @click="handleRegister"
-                      >註冊</v-btn
-                    >
-                  </v-form>
-                </v-sheet>
-              </v-card>
-            </v-window-item>
+                  <v-btn
+                    type="submit"
+                    block
+                    variant="tonal"
+                    color="green-accent-4"
+                    class="mt-2"
+                    @click="handleRegister"
+                    >註冊</v-btn
+                  >
+                </v-form>
+              </v-window-item>
 
-            <v-window-item value="three">Retrive password</v-window-item>
-          </v-window>
-        </v-card-text>
-      </v-card>
-    </div>
-    <div class="p-20" style="height: 100%">
-      <img
-        class="loginImg"
-        src="https://www.10wallpaper.com/wallpaper/1366x768/1608/Dog_puppy_white_pet-Animal_Photos_HD_Wallpaper_1366x768.jpg"
-      />
-    </div>
-  </div>
+              <v-window-item value="three"
+                >重設密碼
+                <v-btn
+                  type="submit"
+                  block
+                  variant="tonal"
+                  color="green-accent-4"
+                  class="mt-2"
+                  @click="handleLogin"
+                  >重設密碼</v-btn
+                >
+              </v-window-item>
+            </v-window>
+          </v-card-text>
+        </v-card>
+      </div>
+    </v-col>
+    <v-col cols="8">
+      <div class="p-20" style="height: 100%">
+        <img
+          class="loginImg"
+          src="https://www.10wallpaper.com/wallpaper/1366x768/1608/Dog_puppy_white_pet-Animal_Photos_HD_Wallpaper_1366x768.jpg"
+        />
+      </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">
-import { useAuth } from "@/api/auth";
+import { Auth } from "@/api/auth";
+import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore();
+const router = useRouter();
 
 const tab = ref(null);
-
+const loginFailedBar = ref(false);
+const registerResultBar = ref(false);
+let registerReason = ref("");
 const userRegister = ref({
   name: "",
   email: "",
@@ -98,10 +138,12 @@ async function handleRegister() {
   // Register 註冊
   const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRule.test(userRegister.value.email)) {
-    const registerResult = await useAuth.apiPostRegister(userRegister.value);
+    const registerResult = await Auth.apiPostRegister(userRegister.value);
     try {
+      console.log("registerResult: ", registerResult);
       if (registerResult) {
-        alert("註冊成功");
+        registerReason = ref("註冊成功");
+        registerResultBar.value = true;
         // selectedTab.value = "login";
         // notification.success({
         //   content: "註冊成功",
@@ -111,6 +153,8 @@ async function handleRegister() {
         //   closable: false,
         // });
       } else {
+        registerReason = ref("註冊失敗");
+        registerResultBar.value = true;
         // notification.error({
         //   content: "註冊失敗",
         //   meta: "請與相關人員聯繫",
@@ -120,15 +164,13 @@ async function handleRegister() {
         // });
       }
     } catch {
-      // notification.error({
-      //   content: "註冊失敗",
-      //   meta: "請與相關人員聯繫",
-      //   duration: 1500,
-      //   keepAliveOnHover: false,
-      //   closable: false,
-      // });
+      registerReason = ref("註冊失敗");
+      registerResultBar.value = true;
     }
   } else {
+    registerReason = ref("註冊失敗");
+    registerResultBar.value = true;
+
     // notification.error({
     //   content: "email格式錯誤",
     //   meta: "請輸入正確的email格式",
@@ -136,6 +178,29 @@ async function handleRegister() {
     //   keepAliveOnHover: false,
     //   closable: false,
     // });
+  }
+}
+const loginData = reactive({
+  email: "Abc1231@gmail.comaa",
+  password: "Abc123",
+});
+async function handleLogin() {
+  // Login 登入
+  try {
+    const loginResult = await authStore.login(loginData);
+    console.log("loginResult", loginResult);
+    if (loginResult.success) {
+      if (localStorage.getItem("fromVisitorCart")) {
+        router.push("/cart");
+      } else {
+        router.push("/");
+      }
+      loginFailedBar.value = true;
+    } else {
+      loginFailedBar.value = true;
+    }
+  } catch (error) {
+    loginFailedBar.value = true;
   }
 }
 

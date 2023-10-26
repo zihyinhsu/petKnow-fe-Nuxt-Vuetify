@@ -10,7 +10,7 @@ interface registerData {
   password: string;
 }
 
-export const useAuth = {
+export const Auth = {
   apiPostLogin(data: loginData) {
     return req("post", "/login", data);
   },
