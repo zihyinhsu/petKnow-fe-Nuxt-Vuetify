@@ -2,6 +2,7 @@
 import eslint from "vite-plugin-eslint";
 
 export default defineNuxtConfig({
+  srcDir: "src/",
   devtools: { enabled: true },
   modules: ["@pinia/nuxt"],
   css: ["@/assets/scss/style.scss", "mdi/css/materialdesignicons.min.css"],
