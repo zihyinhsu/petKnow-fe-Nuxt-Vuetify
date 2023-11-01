@@ -1,12 +1,13 @@
 <template>
-  <v-row class="fit100">
-    <v-col cols="4" class="center">
-      <div class="text-center">
+  <div>
+    <v-row class="fit100">
+      <!-- https://stackoverflow.com/questions/67344913/how-to-fix-mismatching-childnodes-with-vuetify-select-value-saved-in-nuxt-store -->
+      <client-only>
         <!-- <v-btn color="red-darken-2" @click="loginFailedBar = false">
-          登入失敗！
-        </v-btn> -->
+        登入失敗！
+      </v-btn> -->
         <v-snackbar v-model="loginFailedBar" multi-line>
-          登入失敗！
+          {{ loginMessage }}
           <template #actions>
             <v-btn color="red" variant="text" @click="loginFailedBar = false">
               Close
@@ -21,103 +22,106 @@
             </v-btn>
           </template>
         </v-snackbar>
-      </div>
-      <div style="width: 400px" class="d-flex align-center justify-center">
-        <v-card color="grey-accent-4">
-          <v-tabs v-model="tab" color="green-accent-4" align-tabs="center">
-            <v-tab value="login">登入</v-tab>
-            <v-tab value="register">註冊</v-tab>
-            <v-tab value="three">忘記密碼</v-tab>
-          </v-tabs>
+      </client-only>
+      <v-col cols="4" class="center">
+        <div class="text-center"></div>
+        <div style="width: 400px" class="d-flex align-center justify-center">
+          <v-card color="grey-accent-4">
+            <v-tabs v-model="tab" color="green-accent-4" align-tabs="center">
+              <v-tab value="login">登入</v-tab>
+              <v-tab value="register">註冊</v-tab>
+              <v-tab value="three">忘記密碼</v-tab>
+            </v-tabs>
 
-          <v-card-text>
-            <v-window v-model="tab">
-              <v-window-item v-model="tab" value="login">
-                <v-form :model="loginData" @submit.prevent>
-                  <br />
-                  <v-text-field
-                    v-model="loginData.email"
-                    :rules="rules"
-                    placeholder="johndoe@gmail.com"
-                    label="Email"
-                    variant="outlined"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model:value="loginData.password"
-                    label="密碼"
-                    type="password"
-                    variant="outlined"
-                  ></v-text-field>
-                  <v-btn
-                    type="submit"
-                    block
-                    variant="tonal"
-                    color="green-accent-4"
-                    @click="handleLogin"
-                    >登入</v-btn
-                  >
-                </v-form>
-              </v-window-item>
+            <v-card-text>
+              <v-window v-model="tab">
+                <v-window-item v-model="tab" value="login">
+                  <v-form :model="loginData" @submit.prevent>
+                    <br />
+                    <v-text-field
+                      v-model="loginData.email"
+                      :rules="rules"
+                      placeholder="johndoe@gmail.com"
+                      label="Email"
+                      variant="outlined"
+                    ></v-text-field>
+                    <v-text-field
+                      v-model:value="loginData.password"
+                      label="密碼"
+                      type="password"
+                      variant="outlined"
+                    ></v-text-field>
+                    <v-btn
+                      type="submit"
+                      block
+                      variant="tonal"
+                      color="green-accent-4"
+                      @click="handleLogin"
+                      >登入</v-btn
+                    >
+                  </v-form>
+                </v-window-item>
 
-              <v-window-item value="register">
-                <v-form @submit.prevent>
-                  <br />
-                  <v-text-field
-                    bg-color="white"
-                    :rules="rules"
-                    label="輸入姓名"
-                    variant="outlined"
-                  ></v-text-field>
-                  <v-text-field
-                    bg-color="white"
-                    :rules="rules"
-                    label="Email"
-                    variant="outlined"
-                  ></v-text-field>
-                  <v-text-field
-                    :rules="rules"
-                    label="Password"
-                    variant="outlined"
-                  ></v-text-field>
+                <v-window-item value="register">
+                  <v-form @submit.prevent>
+                    <br />
+                    <v-text-field
+                      bg-color="white"
+                      :rules="rules"
+                      label="輸入姓名"
+                      variant="outlined"
+                    ></v-text-field>
+                    <v-text-field
+                      bg-color="white"
+                      :rules="rules"
+                      label="Email"
+                      variant="outlined"
+                    ></v-text-field>
+                    <v-text-field
+                      :rules="rules"
+                      label="Password"
+                      variant="outlined"
+                    ></v-text-field>
 
+                    <v-btn
+                      type="submit"
+                      block
+                      variant="tonal"
+                      color="green-accent-4"
+                      class="mt-2"
+                      @click="handleRegister"
+                      >註冊</v-btn
+                    >
+                  </v-form>
+                </v-window-item>
+
+                <v-window-item value="three"
+                  >重設密碼
                   <v-btn
                     type="submit"
                     block
                     variant="tonal"
                     color="green-accent-4"
                     class="mt-2"
-                    @click="handleRegister"
-                    >註冊</v-btn
+                    @click="handleLogin"
+                    >重設密碼</v-btn
                   >
-                </v-form>
-              </v-window-item>
-
-              <v-window-item value="three"
-                >重設密碼
-                <v-btn
-                  type="submit"
-                  block
-                  variant="tonal"
-                  color="green-accent-4"
-                  class="mt-2"
-                  @click="handleLogin"
-                  >重設密碼</v-btn
-                >
-              </v-window-item>
-            </v-window>
-          </v-card-text>
-        </v-card>
-      </div>
-    </v-col>
-    <v-col cols="8">
-      <div class="p-20" style="height: 100%">
-        <img
-          class="loginImg"
-          src="https://www.10wallpaper.com/wallpaper/1366x768/1608/Dog_puppy_white_pet-Animal_Photos_HD_Wallpaper_1366x768.jpg"
-        />
-      </div>
-    </v-col>
-  </v-row>
+                </v-window-item>
+              </v-window>
+            </v-card-text>
+          </v-card>
+        </div>
+      </v-col>
+      <v-col cols="8">
+        <div class="p-20" style="height: 100%">
+          <img
+            class="loginImg"
+            src="https://www.10wallpaper.com/wallpaper/1366x768/1608/Dog_puppy_white_pet-Animal_Photos_HD_Wallpaper_1366x768.jpg"
+          />
+        </div>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -128,8 +132,9 @@ const router = useRouter();
 
 const tab = ref(null);
 const loginFailedBar = ref(false);
+const loginMessage = ref("");
 const registerResultBar = ref(false);
-let registerReason = ref("");
+const registerReason = ref("");
 const userRegister = ref({
   name: "",
   email: "",
@@ -144,7 +149,7 @@ async function handleRegister() {
     try {
       console.log("registerResult: ", registerResult);
       if (registerResult) {
-        registerReason = ref("註冊成功");
+        registerReason.value = "註冊成功";
         registerResultBar.value = true;
         // selectedTab.value = "login";
         // notification.success({
@@ -155,7 +160,7 @@ async function handleRegister() {
         //   closable: false,
         // });
       } else {
-        registerReason = ref("註冊失敗");
+        registerReason.value = "註冊失敗";
         registerResultBar.value = true;
         // notification.error({
         //   content: "註冊失敗",
@@ -166,13 +171,12 @@ async function handleRegister() {
         // });
       }
     } catch {
-      registerReason = ref("註冊失敗");
+      registerReason.value = "註冊失敗";
       registerResultBar.value = true;
     }
   } else {
-    registerReason = ref("註冊失敗");
+    registerReason.value = "email格式錯誤";
     registerResultBar.value = true;
-
     // notification.error({
     //   content: "email格式錯誤",
     //   meta: "請輸入正確的email格式",
@@ -198,11 +202,14 @@ async function handleLogin() {
         router.push("/");
       }
       loginFailedBar.value = true;
+      loginMessage.value = "登入成功";
     } else {
       loginFailedBar.value = true;
+      loginMessage.value = "登入失敗";
     }
   } catch (error) {
     loginFailedBar.value = true;
+    loginMessage.value = "登入失敗";
   }
 }
 
