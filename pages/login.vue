@@ -144,7 +144,7 @@ const loginData = reactive({
   password: "Abc123",
 });
 
-const registerData = reactive({
+const registerData = ref({
   name: "",
   email: "",
   password: "",
@@ -153,8 +153,8 @@ const registerData = reactive({
 async function handleRegister() {
   // Register 註冊
   const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRule.test(registerData.email)) {
-    const registerResult = await Auth.apiPostRegister(registerData);
+  if (emailRule.test(registerData.value.email)) {
+    const registerResult = await Auth.apiPostRegister(registerData.value);
     try {
       console.log("registerResult: ", registerResult);
       if (registerResult) {
@@ -226,29 +226,16 @@ const rules = {
     return emailRule.test(value) || "Invalid e-mail.";
   },
   password: (value: string) => {
-    const passwordRule = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+    const passwordRule = /^.{6,}$/;
     return passwordRule.test(value) || "Invalid password.";
   },
+  // password: (value: string) => {
+  //   const passwordRule = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+  //   return passwordRule.test(value) || "Invalid password.";
+  // },
 };
-
-// const validateRules = {
-//   name: {
-//     required: true,
-//     message: "輸入姓名",
-//     trigger: ["input", "blur"],
-//   },
-//   email: {
-//     required: true,
-//     message: "輸入email",
-//     trigger: ["input", "blur"],
-//   },
-//   password: {
-//     required: true,
-//     message: "輸入密碼",
-//     trigger: ["input", "blur"],
-//   },
-// };
 </script>
+
 <style>
 .fit100 {
   height: 100vh;
