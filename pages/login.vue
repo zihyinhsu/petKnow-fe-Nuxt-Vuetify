@@ -3,9 +3,6 @@
     <v-row class="fit100">
       <!-- https://stackoverflow.com/questions/67344913/how-to-fix-mismatching-childnodes-with-vuetify-select-value-saved-in-nuxt-store -->
       <client-only>
-        <!-- <v-btn color="red-darken-2" @click="loginFailedBar = false">
-        登入失敗！
-      </v-btn> -->
         <v-snackbar v-model="loginFailedBar" multi-line>
           {{ loginMessage }}
           <template #actions>
@@ -36,17 +33,19 @@
             <v-card-text>
               <v-window v-model="tab">
                 <v-window-item v-model="tab" value="login">
-                  <v-form :model="loginData" @submit.prevent>
+                  <v-form @submit.prevent>
                     <br />
                     <v-text-field
                       v-model="loginData.email"
-                      :rules="rules"
+                      :rules="[rules.required, rules.email]"
                       placeholder="johndoe@gmail.com"
                       label="Email"
+                      type="email"
                       variant="outlined"
                     ></v-text-field>
                     <v-text-field
-                      v-model:value="loginData.password"
+                      v-model="loginData.password"
+                      :rules="[rules.required, rules.password]"
                       label="密碼"
                       type="password"
                       variant="outlined"
@@ -66,20 +65,25 @@
                   <v-form @submit.prevent>
                     <br />
                     <v-text-field
-                      bg-color="white"
-                      :rules="rules"
+                      v-model="registerData.name"
+                      placeholder="輸入姓名"
+                      :rules="[rules.required]"
                       label="輸入姓名"
+                      type="text"
                       variant="outlined"
                     ></v-text-field>
                     <v-text-field
-                      bg-color="white"
-                      :rules="rules"
+                      v-model="registerData.email"
+                      :rules="[rules.required, rules.email]"
                       label="Email"
+                      type="email"
                       variant="outlined"
                     ></v-text-field>
                     <v-text-field
-                      :rules="rules"
-                      label="Password"
+                      v-model="registerData.password"
+                      :rules="[rules.required, rules.password]"
+                      label="密碼"
+                      type="password"
                       variant="outlined"
                     ></v-text-field>
 
@@ -135,7 +139,12 @@ const loginFailedBar = ref(false);
 const loginMessage = ref("");
 const registerResultBar = ref(false);
 const registerReason = ref("");
-const userRegister = ref({
+const loginData = reactive({
+  email: "Abc1231@gmail.comaa",
+  password: "Abc123",
+});
+
+const registerData = reactive({
   name: "",
   email: "",
   password: "",
@@ -144,8 +153,8 @@ const userRegister = ref({
 async function handleRegister() {
   // Register 註冊
   const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRule.test(userRegister.value.email)) {
-    const registerResult = await Auth.apiPostRegister(userRegister.value);
+  if (!emailRule.test(registerData.email)) {
+    const registerResult = await Auth.apiPostRegister(registerData);
     try {
       console.log("registerResult: ", registerResult);
       if (registerResult) {
@@ -186,10 +195,7 @@ async function handleRegister() {
     // });
   }
 }
-const loginData = reactive({
-  email: "Abc1231@gmail.comaa",
-  password: "Abc123",
-});
+
 async function handleLogin() {
   // Login 登入
   try {
@@ -213,16 +219,17 @@ async function handleLogin() {
   }
 }
 
-const rules = [
-  (value: string) => {
-    if (value) {
-      console.log("rules: ", value);
-      return true;
-    }
-
-    return "You must enter a first name.";
+const rules = {
+  required: (value: string) => !!value || "Required.",
+  email: (value: string) => {
+    const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRule.test(value) || "Invalid e-mail.";
   },
-];
+  password: (value: string) => {
+    const passwordRule = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+    return passwordRule.test(value) || "Invalid password.";
+  },
+};
 
 // const validateRules = {
 //   name: {

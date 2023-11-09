@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import type { AxiosResponse } from "axios";
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
-// import Auth from "@/api/auth";
 import { Auth } from "@/api/auth";
 
 type loginData = {
