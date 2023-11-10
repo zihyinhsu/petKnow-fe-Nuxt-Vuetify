@@ -24,15 +24,19 @@
         <div class="text-center"></div>
         <div style="width: 400px" class="d-flex align-center justify-center">
           <v-card color="grey-accent-4">
-            <v-tabs v-model="tab" color="green-accent-4" align-tabs="center">
+            <v-tabs
+              v-model="selectedTab"
+              color="green-accent-4"
+              align-tabs="center"
+            >
               <v-tab value="login">登入</v-tab>
               <v-tab value="register">註冊</v-tab>
               <v-tab value="three">忘記密碼</v-tab>
             </v-tabs>
 
             <v-card-text>
-              <v-window v-model="tab">
-                <v-window-item v-model="tab" value="login">
+              <v-window v-model="selectedTab">
+                <v-window-item value="login">
                   <v-form @submit.prevent>
                     <br />
                     <v-text-field
@@ -43,6 +47,7 @@
                       type="email"
                       variant="outlined"
                     ></v-text-field>
+                    <br />
                     <v-text-field
                       v-model="loginData.password"
                       :rules="[rules.required, rules.password]"
@@ -50,6 +55,7 @@
                       type="password"
                       variant="outlined"
                     ></v-text-field>
+                    <br />
                     <v-btn
                       type="submit"
                       block
@@ -72,6 +78,7 @@
                       type="text"
                       variant="outlined"
                     ></v-text-field>
+                    <br />
                     <v-text-field
                       v-model="registerData.email"
                       :rules="[rules.required, rules.email]"
@@ -79,6 +86,7 @@
                       type="email"
                       variant="outlined"
                     ></v-text-field>
+                    <br />
                     <v-text-field
                       v-model="registerData.password"
                       :rules="[rules.required, rules.password]"
@@ -86,7 +94,7 @@
                       type="password"
                       variant="outlined"
                     ></v-text-field>
-
+                    <br />
                     <v-btn
                       type="submit"
                       block
@@ -134,7 +142,7 @@ import { useAuthStore } from "@/stores/auth";
 const authStore = useAuthStore();
 const router = useRouter();
 
-const tab = ref(null);
+const selectedTab = ref("");
 const loginFailedBar = ref(false);
 const loginMessage = ref("");
 const registerResultBar = ref(false);
@@ -156,11 +164,11 @@ async function handleRegister() {
   if (emailRule.test(registerData.value.email)) {
     const registerResult = await Auth.apiPostRegister(registerData.value);
     try {
-      console.log("registerResult: ", registerResult);
-      if (registerResult) {
+      if (registerResult && registerResult.data.success) {
+        console.log("registerResult: ", registerResult.data);
         registerReason.value = "註冊成功";
         registerResultBar.value = true;
-        // selectedTab.value = "login";
+        selectedTab.value = "login";
         // notification.success({
         //   content: "註冊成功",
         //   meta: "請重新登入",
