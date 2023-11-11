@@ -52,9 +52,19 @@
                       v-model="loginData.password"
                       :rules="[rules.required, rules.password]"
                       label="密碼"
-                      type="password"
+                      :type="showPassword ? 'text' : 'password'"
                       variant="outlined"
-                    ></v-text-field>
+                    >
+                      <template #append-inner>
+                        <v-icon
+                          class="hoverable"
+                          @mousedown="handleMouseDown"
+                          @mouseup="handleMouseUp"
+                        >
+                          {{ showPassword ? "mdi-eye" : "mdi-eye-off" }}
+                        </v-icon>
+                      </template>
+                    </v-text-field>
                     <br />
                     <v-btn
                       type="submit"
@@ -91,9 +101,19 @@
                       v-model="registerData.password"
                       :rules="[rules.required, rules.password]"
                       label="密碼"
-                      type="password"
+                      :type="showPassword ? 'text' : 'password'"
                       variant="outlined"
-                    ></v-text-field>
+                    >
+                      <template #append-inner>
+                        <v-icon
+                          class="hoverable"
+                          @mousedown="handleMouseDown"
+                          @mouseup="handleMouseUp"
+                        >
+                          {{ showPassword ? "mdi-eye" : "mdi-eye-off" }}
+                        </v-icon>
+                      </template>
+                    </v-text-field>
                     <br />
                     <v-btn
                       type="submit"
@@ -146,8 +166,20 @@ const selectedTab = ref("");
 const showNotification = ref(false);
 const msgTitle = ref("");
 const msgMeta = ref("");
+
+const showPassword = ref(false);
+const handleMouseDown = (event: MouseEvent) => {
+  showPassword.value = true;
+  event.preventDefault();
+};
+
+const handleMouseUp = (event: MouseEvent) => {
+  showPassword.value = false;
+  event.preventDefault();
+};
+
 const loginData = reactive({
-  email: "Abc1231@gmail.comaa",
+  email: "Abc1231@gmail.com",
   password: "Abc123",
 });
 
@@ -166,27 +198,14 @@ async function handleRegister() {
       if (registerResult && registerResult.data.success) {
         console.log("registerResult: ", registerResult.data);
         msgTitle.value = "註冊成功";
+        msgMeta.value = "請重新登入";
         showNotification.value = true;
 
         selectedTab.value = "login";
-        // notification.success({
-        //   content: "註冊成功",
-        //   meta: "請重新登入",
-        //   duration: 1500,
-        //   keepAliveOnHover: false,
-        //   closable: false,
-        // });
       } else {
         showNotification.value = true;
         msgTitle.value = "註冊失敗";
         msgMeta.value = "請與相關人員聯繫";
-        // notification.error({
-        //   content: "註冊失敗",
-        //   meta: "請與相關人員聯繫",
-        //   duration: 1500,
-        //   keepAliveOnHover: false,
-        //   closable: false,
-        // });
       }
     } catch {
       msgTitle.value = "註冊失敗";
@@ -196,13 +215,6 @@ async function handleRegister() {
     showNotification.value = true;
     msgTitle.value = "email格式錯誤";
     msgMeta.value = "請輸入正確的email格式";
-    // notification.error({
-    //   content: "email格式錯誤",
-    //   meta: "請輸入正確的email格式",
-    //   duration: 1500,
-    //   keepAliveOnHover: false,
-    //   closable: false,
-    // });
   }
 }
 
@@ -212,13 +224,13 @@ async function handleLogin() {
     const loginResult = await authStore.login(loginData);
     console.log("loginResult", loginResult);
     if (loginResult.success) {
+      showNotification.value = true;
+      msgTitle.value = "登入成功";
       if (localStorage.getItem("fromVisitorCart")) {
         router.push("/cart");
       } else {
         router.push("/");
       }
-      showNotification.value = true;
-      msgTitle.value = "登入成功";
     } else {
       showNotification.value = true;
       msgTitle.value = "登入失敗";
@@ -268,5 +280,9 @@ const rules = {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.hoverable {
+  cursor: pointer;
 }
 </style>
