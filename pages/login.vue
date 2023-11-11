@@ -41,7 +41,7 @@
                     <br />
                     <v-text-field
                       v-model="loginData.email"
-                      :rules="[rules.required, rules.email]"
+                      :rules="[validationRules.required, validationRules.email]"
                       placeholder="johndoe@gmail.com"
                       label="Email"
                       type="email"
@@ -50,7 +50,10 @@
                     <br />
                     <v-text-field
                       v-model="loginData.password"
-                      :rules="[rules.required, rules.password]"
+                      :rules="[
+                        validationRules.required,
+                        validationRules.password,
+                      ]"
                       label="密碼"
                       :type="showPassword ? 'text' : 'password'"
                       variant="outlined"
@@ -76,14 +79,13 @@
                     >
                   </v-form>
                 </v-window-item>
-
                 <v-window-item value="register">
                   <v-form @submit.prevent>
                     <br />
                     <v-text-field
                       v-model="registerData.name"
                       placeholder="輸入姓名"
-                      :rules="[rules.required]"
+                      :rules="[validationRules.required]"
                       label="輸入姓名"
                       type="text"
                       variant="outlined"
@@ -91,7 +93,8 @@
                     <br />
                     <v-text-field
                       v-model="registerData.email"
-                      :rules="[rules.required, rules.email]"
+                      bg-color="white"
+                      :rules="[validationRules.required, validationRules.email]"
                       label="Email"
                       type="email"
                       variant="outlined"
@@ -99,7 +102,10 @@
                     <br />
                     <v-text-field
                       v-model="registerData.password"
-                      :rules="[rules.required, rules.password]"
+                      :rules="[
+                        validationRules.required,
+                        validationRules.password,
+                      ]"
                       label="密碼"
                       :type="showPassword ? 'text' : 'password'"
                       variant="outlined"
@@ -126,7 +132,6 @@
                     >
                   </v-form>
                 </v-window-item>
-
                 <v-window-item value="three"
                   >重設密碼
                   <v-btn
@@ -161,7 +166,6 @@ import { Auth } from "@/api/auth";
 import { useAuthStore } from "@/stores/auth";
 const authStore = useAuthStore();
 const router = useRouter();
-
 const selectedTab = ref("");
 const showNotification = ref(false);
 const msgTitle = ref("");
@@ -189,10 +193,27 @@ const registerData = ref({
   password: "",
 });
 
+const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const passwordRule = /^.{6,}$/;
+
 async function handleRegister() {
   // Register 註冊
-  const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (emailRule.test(registerData.value.email)) {
+  const emailRuleTest = emailRule.test(registerData.value.email);
+  const passwordRuleTest = passwordRule.test(registerData.value.password);
+
+  if (!registerData.value.name) {
+    showNotification.value = true;
+    msgTitle.value = "請輸入姓名";
+    msgMeta.value = "";
+  } else if (!emailRuleTest) {
+    showNotification.value = true;
+    msgTitle.value = "email格式錯誤";
+    msgMeta.value = "請輸入正確的email格式";
+  } else if (!passwordRuleTest) {
+    showNotification.value = true;
+    msgTitle.value = "密碼格式錯誤";
+    msgMeta.value = "請輸入6位數以上的密碼";
+  } else {
     const registerResult = await Auth.apiPostRegister(registerData.value);
     try {
       if (registerResult && registerResult.data.success) {
@@ -211,52 +232,55 @@ async function handleRegister() {
       msgTitle.value = "註冊失敗";
       showNotification.value = true;
     }
-  } else {
-    showNotification.value = true;
-    msgTitle.value = "email格式錯誤";
-    msgMeta.value = "請輸入正確的email格式";
   }
 }
 
 async function handleLogin() {
   // Login 登入
-  try {
-    const loginResult = await authStore.login(loginData);
-    console.log("loginResult", loginResult);
-    if (loginResult.success) {
-      showNotification.value = true;
-      msgTitle.value = "登入成功";
-      if (localStorage.getItem("fromVisitorCart")) {
-        router.push("/cart");
+  const emailRuleTest = emailRule.test(loginData.email);
+  const passwordRuleTest = passwordRule.test(loginData.password);
+
+  if (!emailRuleTest) {
+    showNotification.value = true;
+    msgTitle.value = "email格式錯誤";
+    msgMeta.value = "請輸入正確的email格式";
+  } else if (!passwordRuleTest) {
+    showNotification.value = true;
+    msgTitle.value = "密碼格式錯誤";
+    msgMeta.value = "請輸入6位數以上的密碼";
+  } else {
+    try {
+      const loginResult = await authStore.login(loginData);
+      console.log("loginResult", loginResult);
+      if (loginResult.success) {
+        showNotification.value = true;
+        msgTitle.value = "登入成功";
+        if (localStorage.getItem("fromVisitorCart")) {
+          router.push("/cart");
+        } else {
+          router.push("/");
+        }
       } else {
-        router.push("/");
+        showNotification.value = true;
+        msgTitle.value = "登入失敗";
+        msgMeta.value = "請輸入正確帳號密碼";
       }
-    } else {
+    } catch (error) {
       showNotification.value = true;
       msgTitle.value = "登入失敗";
       msgMeta.value = "請輸入正確帳號密碼";
     }
-  } catch (error) {
-    showNotification.value = true;
-    msgTitle.value = "登入失敗";
-    msgMeta.value = "請輸入正確帳號密碼";
   }
 }
 
-const rules = {
+const validationRules = {
   required: (value: string) => !!value || "Required.",
   email: (value: string) => {
-    const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRule.test(value) || "Invalid e-mail.";
   },
   password: (value: string) => {
-    const passwordRule = /^.{6,}$/;
     return passwordRule.test(value) || "Invalid password.";
   },
-  // password: (value: string) => {
-  //   const passwordRule = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
-  //   return passwordRule.test(value) || "Invalid password.";
-  // },
 };
 </script>
 
