@@ -3,18 +3,18 @@
     <v-row class="fit100">
       <!-- https://stackoverflow.com/questions/67344913/how-to-fix-mismatching-childnodes-with-vuetify-select-value-saved-in-nuxt-store -->
       <client-only>
-        <v-snackbar v-model="loginFailedBar" multi-line>
-          {{ loginMessage }}
+        <v-snackbar
+          v-model="showNotification"
+          color="white"
+          :timeout="1500"
+          location="top right"
+          multi-line
+        >
+          <h2>{{ msgTitle }}</h2>
+          <br />
+          <p>{{ msgMeta }}</p>
           <template #actions>
-            <v-btn color="red" variant="text" @click="loginFailedBar = false">
-              Close
-            </v-btn>
-          </template>
-        </v-snackbar>
-        <v-snackbar v-model="registerResultBar" multi-line>
-          {{ registerReason }}
-          <template #actions>
-            <v-btn color="red" variant="text" @click="loginFailedBar = false">
+            <v-btn color="red" variant="text" @click="showNotification = false">
               Close
             </v-btn>
           </template>
@@ -143,10 +143,9 @@ const authStore = useAuthStore();
 const router = useRouter();
 
 const selectedTab = ref("");
-const loginFailedBar = ref(false);
-const loginMessage = ref("");
-const registerResultBar = ref(false);
-const registerReason = ref("");
+const showNotification = ref(false);
+const msgTitle = ref("");
+const msgMeta = ref("");
 const loginData = reactive({
   email: "Abc1231@gmail.comaa",
   password: "Abc123",
@@ -166,8 +165,9 @@ async function handleRegister() {
     try {
       if (registerResult && registerResult.data.success) {
         console.log("registerResult: ", registerResult.data);
-        registerReason.value = "註冊成功";
-        registerResultBar.value = true;
+        msgTitle.value = "註冊成功";
+        showNotification.value = true;
+
         selectedTab.value = "login";
         // notification.success({
         //   content: "註冊成功",
@@ -177,8 +177,9 @@ async function handleRegister() {
         //   closable: false,
         // });
       } else {
-        registerReason.value = "註冊失敗";
-        registerResultBar.value = true;
+        showNotification.value = true;
+        msgTitle.value = "註冊失敗";
+        msgMeta.value = "請與相關人員聯繫";
         // notification.error({
         //   content: "註冊失敗",
         //   meta: "請與相關人員聯繫",
@@ -188,12 +189,13 @@ async function handleRegister() {
         // });
       }
     } catch {
-      registerReason.value = "註冊失敗";
-      registerResultBar.value = true;
+      msgTitle.value = "註冊失敗";
+      showNotification.value = true;
     }
   } else {
-    registerReason.value = "email格式錯誤";
-    registerResultBar.value = true;
+    showNotification.value = true;
+    msgTitle.value = "email格式錯誤";
+    msgMeta.value = "請輸入正確的email格式";
     // notification.error({
     //   content: "email格式錯誤",
     //   meta: "請輸入正確的email格式",
@@ -215,15 +217,17 @@ async function handleLogin() {
       } else {
         router.push("/");
       }
-      loginFailedBar.value = true;
-      loginMessage.value = "登入成功";
+      showNotification.value = true;
+      msgTitle.value = "登入成功";
     } else {
-      loginFailedBar.value = true;
-      loginMessage.value = "登入失敗";
+      showNotification.value = true;
+      msgTitle.value = "登入失敗";
+      msgMeta.value = "請輸入正確帳號密碼";
     }
   } catch (error) {
-    loginFailedBar.value = true;
-    loginMessage.value = "登入失敗";
+    showNotification.value = true;
+    msgTitle.value = "登入失敗";
+    msgMeta.value = "請輸入正確帳號密碼";
   }
 }
 
