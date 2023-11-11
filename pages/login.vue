@@ -41,7 +41,7 @@
                     <br />
                     <v-text-field
                       v-model="loginData.email"
-                      :rules="[rules.required, rules.email]"
+                      :rules="[validationRules.required, validationRules.email]"
                       placeholder="johndoe@gmail.com"
                       label="Email"
                       type="email"
@@ -50,7 +50,10 @@
                     <br />
                     <v-text-field
                       v-model="loginData.password"
-                      :rules="[rules.required, rules.password]"
+                      :rules="[
+                        validationRules.required,
+                        validationRules.password,
+                      ]"
                       label="密碼"
                       :type="showPassword ? 'text' : 'password'"
                       variant="outlined"
@@ -76,14 +79,13 @@
                     >
                   </v-form>
                 </v-window-item>
-
                 <v-window-item value="register">
                   <v-form @submit.prevent>
                     <br />
                     <v-text-field
                       v-model="registerData.name"
                       placeholder="輸入姓名"
-                      :rules="[rules.required]"
+                      :rules="[validationRules.required]"
                       label="輸入姓名"
                       type="text"
                       variant="outlined"
@@ -92,7 +94,7 @@
                     <v-text-field
                       v-model="registerData.email"
                       bg-color="white"
-                      :rules="[rules.required, rules.email]"
+                      :rules="[validationRules.required, validationRules.email]"
                       label="Email"
                       type="email"
                       variant="outlined"
@@ -100,7 +102,10 @@
                     <br />
                     <v-text-field
                       v-model="registerData.password"
-                      :rules="[rules.required, rules.password]"
+                      :rules="[
+                        validationRules.required,
+                        validationRules.password,
+                      ]"
                       label="密碼"
                       :type="showPassword ? 'text' : 'password'"
                       variant="outlined"
@@ -127,7 +132,6 @@
                     >
                   </v-form>
                 </v-window-item>
-
                 <v-window-item value="three"
                   >重設密碼
                   <v-btn
@@ -197,7 +201,11 @@ async function handleRegister() {
   const emailRuleTest = emailRule.test(registerData.value.email);
   const passwordRuleTest = passwordRule.test(registerData.value.password);
 
-  if (!emailRuleTest) {
+  if (!registerData.value.name) {
+    showNotification.value = true;
+    msgTitle.value = "請輸入姓名";
+    msgMeta.value = "";
+  } else if (!emailRuleTest) {
     showNotification.value = true;
     msgTitle.value = "email格式錯誤";
     msgMeta.value = "請輸入正確的email格式";
@@ -265,10 +273,9 @@ async function handleLogin() {
   }
 }
 
-const rules = {
+const validationRules = {
   required: (value: string) => !!value || "Required.",
   email: (value: string) => {
-    // const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRule.test(value) || "Invalid e-mail.";
   },
   password: (value: string) => {
