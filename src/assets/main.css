@@ -1,1 +1,43 @@
 @import './base.css';
+
+.n-collapse-item__header-main {
+    padding: 20px;
+  }
+.bg-gray {
+background-color: #f8f8f8;
+}
+
+.bg-white {
+background-color: #fff;
+}
+.flex{
+    display: flex;
+}
+.justify-between{
+    justify-content: space-between;
+}
+
+/*
+  FIXME: remove !important to reduce css weight
+  FIXME: move custom-tabs style into scss or ts file
+*/
+.custom-tabs.n-tabs  {
+  padding-top: 32px;
+  border-top: .5px solid #D1D1D1;
+  border-bottom: .5px solid #D1D1D1;
+}
+.custom-tabs .n-tabs-tab {
+  border: none !important;
+  border-bottom: 4px solid transparent !important; 
+}
+.custom-tabas .n-tabs-tab a {
+  color: #525252;
+}
+.custom-tabs .n-tabs-tab.n-tabs-tab--active {
+  border-bottom: 4px solid #ED888C !important;
+  color: #020202 !important;
+  font-weight:bold !important;
+}
+.custom-tabs .n-tabs-tab--active a {
+  color: #020202;
+}
