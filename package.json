@@ -30,6 +30,7 @@
     "mdi": "^2.2.43",
     "pinia": "^2.1.4",
     "sass": "^1.63.6",
+    "vite-plugin-vuetify": "^1.0.2",
     "vuetify": "^3.3.6"
   }
 }
