@@ -6,11 +6,20 @@
   https://nuxt.com/modules/nuxt-svgo
 */
 import eslint from "vite-plugin-eslint";
+import vuetify from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
   srcDir: "src/",
   devtools: { enabled: true },
-  modules: ["@pinia/nuxt", "nuxt-svgo"],
+  modules: [
+    "@pinia/nuxt",
+    "nuxt-svgo",
+    async (_options, nuxt) => {
+      await nuxt.hooks.hook("vite:extendConfig", (config: any) => {
+        config.plugins.push(vuetify());
+      });
+    },
+  ],
   svgo: {
     defaultImport: "component",
   },
