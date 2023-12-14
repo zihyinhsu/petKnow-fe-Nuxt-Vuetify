@@ -18,7 +18,6 @@ const props = defineProps<{
 }>();
 const formattedPrice = props.price?.toLocaleString();
 const formattedDiscountPrice = props.discountPrice?.toLocaleString();
-console.log(props);
 </script>
 <template>
   <div class="card-course" style="margin-bottom: 40px">

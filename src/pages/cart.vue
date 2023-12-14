@@ -75,7 +75,7 @@
             border-radius: 0.5rem;
             box-shadow: none;
           "
-          @click="createOrder"
+          @click="cartStore.createOrder"
         >
           下一步
           <v-icon icon="mdi-arrow-right" size="16" color="#fffff"> </v-icon>
@@ -142,13 +142,6 @@ onMounted(async () => {
   }
   await cartStore.getCartData();
 });
-
-const createOrder = async () => {
-  const order = await cartStore.createOrder();
-  console.log("order: ", order);
-
-  router.push("/order");
-};
 </script>
 
 <style lang="scss" scoped>
