@@ -10,9 +10,12 @@ import eslint from "vite-plugin-eslint";
 export default defineNuxtConfig({
   srcDir: "src/",
   devtools: { enabled: true },
-  modules: ["@pinia/nuxt", "nuxt-svgo"],
+  modules: ["@pinia/nuxt", "nuxt-svgo", "nuxt-swiper"],
   svgo: {
     defaultImport: "component",
+  },
+  swiper: {
+    modules: ["navigation", "pagination", "effect-creative"],
   },
   css: [
     "@/assets/main.css",

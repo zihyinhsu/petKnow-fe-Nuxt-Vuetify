@@ -27,7 +27,7 @@
         class="column flex-end"
         style="margin: 1rem 0"
       >
-        <div class="d-flex flex-between" style="min-width: 40%; padding: 1rem">
+        <div class="d-flex flex-between brief">
           <div>小計</div>
           <div>${{ cartStore.totalPrice.toLocaleString() }}</div>
         </div>
@@ -39,7 +39,7 @@
           <div>優惠價格</div>
           <div>- ${{ cartStore.couponPrice.toLocaleString() }}</div>
         </div>
-        <div class="d-flex flex-between" style="min-width: 40%; padding: 1rem">
+        <div class="d-flex flex-between total">
           <div>總計</div>
           <div v-if="cartStore.discountedPrice">
             ${{ cartStore.discountedPrice.toLocaleString() }}
@@ -50,17 +50,18 @@
           <div>優惠券折抵</div>
           <!-- bvCyXjGL -->
           <div v-if="cartStore.couponValue">
-            <tag
+            <div
               style="margin: 16px 0"
               closable
               @close="cartStore.deleteCoupon"
-              >{{ cartStore.couponLabel }}</tag
             >
+              {{ cartStore.couponLabel }}
+            </div>
           </div>
           <input
             v-else
             :value="cartStore.couponValue"
-            style="max-width: 250px"
+            class="coupon-input"
             type="text"
             placeholder="請輸入優惠券碼"
             @update:value="cartStore.addCoupon"
@@ -77,9 +78,7 @@
           @click="createOrder"
         >
           下一步
-          <v-icon icon="mdi-arrow-right" size="16" color="#fffff">
-            <ArrowRightAltSharp />
-          </v-icon>
+          <v-icon icon="mdi-arrow-right" size="16" color="#fffff"> </v-icon>
         </button>
       </div>
 
@@ -87,24 +86,26 @@
         <div class="mb-2 flex-between align-items-center">
           <h4 class="sub-title">你可能會喜歡</h4>
         </div>
-        <swiper
-          :modules="[Autoplay]"
-          class="swiper"
-          :space-between="20"
-          :slides-per-view="1.2"
+
+        <Swiper
+          :modules="[SwiperNavigation, SwiperEffectCreative]"
+          :slides-per-view="4"
+          :space-between="16"
+          :loop="true"
           :centered-slides="false"
+          :direction="'horizontal'"
           :breakpoints="{
             '768': {
-              slidesPerView: 1.2,
+              slidesPerView: 1,
               spaceBetween: 20,
             },
             '1024': {
-              slidesPerView: 3.5,
+              slidesPerView: 4,
               spaceBetween: 30,
             },
           }"
         >
-          <swiper-slide
+          <SwiperSlide
             v-for="(course, index) in cartStore.youMightLike"
             :key="index"
             class="slide"
@@ -116,8 +117,8 @@
               :teacher="course.instructorName"
               :price="course.price"
             />
-          </swiper-slide>
-        </swiper>
+          </SwiperSlide>
+        </Swiper>
       </div>
     </div>
   </div>
@@ -125,9 +126,6 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { ArrowRightAltSharp } from "@vicons/material";
-import { Swiper, SwiperSlide } from "vue-awesome-swiper";
-import { Autoplay } from "swiper";
 import { useRouter } from "vue-router";
 import CartComponent from "@/components/CartComponent.vue";
 import { useCartStore } from "@/stores/cart";
@@ -233,10 +231,36 @@ input {
   opacity: 0;
 }
 
+.brief {
+  min-width: 40%;
+  padding: 1rem;
+}
+
+.total {
+  min-width: 40%;
+  padding: 1rem;
+}
+
 .coupon {
   width: 40%;
-  @media (max-width: 768px) {
-    width: 60%;
+}
+
+.coupon-input {
+  max-width: 200px;
+}
+
+@media (max-width: 768px) {
+  .brief {
+    min-width: 100%;
+    padding: 1rem;
+  }
+
+  .total {
+    min-width: 100%;
+    padding: 1rem;
+  }
+  .coupon {
+    width: 100%;
     margin-left: 0;
   }
 }
