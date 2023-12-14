@@ -72,19 +72,23 @@ console.log(props);
 
       <div>
         <hr />
-        <div class="flex justify-between">
-          <div style="padding: 20px; width: 100%">
-            <v-icon icon="mdi-library" /> {{ teacher }}老師
-          </div>
+        <div class="upper-lower-wrapper flex justify-between">
+          <div class="upper">
+            <div style="padding: 5px; width: 100%">
+              <v-icon icon="mdi-library" /> {{ teacher }}老師
+            </div>
 
-          <div style="padding: 20px; width: 100%">
-            <v-icon icon="mdi-clock" /> 共計 {{ time }} 小時
+            <div style="padding: 5px; width: 100%">
+              <v-icon icon="mdi-clock" /> 共計 {{ time }} 小時
+            </div>
           </div>
-          <div style="padding: 20px; width: 100%">
-            <v-icon icon="mdi-book" /> {{ courseNum }} 堂講座
-          </div>
-          <div style="padding: 20px; width: 100%">
-            <v-icon icon="mdi-pound" /> {{ level }}課程
+          <div class="lower">
+            <div style="padding: 5px; width: 100%">
+              <v-icon icon="mdi-book" /> {{ courseNum }} 堂講座
+            </div>
+            <div style="padding: 5px; width: 100%">
+              <v-icon icon="mdi-pound" /> {{ level }}課程
+            </div>
           </div>
         </div>
         <hr />
@@ -202,12 +206,43 @@ console.log(props);
 }
 
 .removeBtn {
+  color: red;
   margin-left: 1rem;
-  font-size: 12px;
+  font-size: 1.5rem;
   width: 3rem;
   @media (max-width: 768px) {
     width: 100%;
     margin-left: 0;
+  }
+}
+
+.upper {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+.lower {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.upper-lower-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 768px) {
+  .upper {
+    display: flex;
+    flex-direction: row;
+  }
+  .lower {
+    display: flex;
+    flex-direction: row;
+  }
+  .upper-lower-wrapper {
+    flex-direction: column;
   }
 }
 </style>
