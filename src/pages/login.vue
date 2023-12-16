@@ -162,6 +162,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import { Auth } from "@/api/auth";
 import { useAuthStore } from "@/stores/auth";
 const authStore = useAuthStore();
