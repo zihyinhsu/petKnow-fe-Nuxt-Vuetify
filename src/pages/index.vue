@@ -1,21 +1,27 @@
 <script setup lang="ts">
-import { useRafFn } from "@vueuse/core";
-
+const alertData: any = inject("alertData");
 const { count } = useAddCount();
 
-useRafFn(() => {
-  if (count.value < 16) {
-    count.value += 1;
-  }
-});
-
 const title = ref("2022 iThome 鐵人賽");
+
+function showAlert() {
+  alertData.value = {
+    status: "error",
+    content: "測試",
+    visible: true,
+  };
+  console.log("asdf", alertData.value);
+}
 </script>
 
 <template>
   <div>
     <Home />
-    <v-btn depressed color="info" prepend-icon="mdi-cloud-upload"
+    <v-btn
+      depressed
+      color="info"
+      prepend-icon="mdi-cloud-upload"
+      @click="showAlert"
       >{{ title }} {{ count }}</v-btn
     >
 
