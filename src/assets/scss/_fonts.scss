@@ -1,0 +1,182 @@
+/*
+  FONT STYLES SETTINGS
+  * base value: 16
+  * scale: 1.2
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Reggae+One&family=Roboto:wght@400;900&display=swap');
+
+.pk-fonts {
+  font-family: "Noto Sans TC";
+  font-style: normal;
+}
+
+.pk-display-01-regular {
+  /* TC / Display01 / Regular */
+  font-size: 160px;
+  font-weight: 400;
+  line-height: 120%; /* 192px */
+}
+
+.pk-display-02-regular {
+  /* TC / Display02 / Regular */
+  font-size: 120px;
+  font-weight: 400;
+  line-height: 120%; /* 144px */
+}
+
+.pk-display-03-regular {
+  /* TC / Display03 / Regular */
+  font-size: 80px;
+  font-weight: 400;
+  line-height: 120%; /* 96px */
+}
+
+.pk-heading-01-regular {
+  /* TC / Heading01 / Regular */
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 120%; /* 57.6px */
+}
+
+.pk-heading-02-regular {
+  /* TC / Heading02 / Regular */
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 120%; /* 48px */
+}
+
+.pk-heading-03-regular {
+  /* TC / Heading03 / Regular */
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 120%; /* 38.4px */
+}
+
+.pk-heading-04-regular {
+  /* TC / Heading04 / Regular */
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 120%; /* 33.6px */
+}
+
+.pk-heading-05-regular {
+  /* TC / Heading05 / Regular */
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 120%; /* 28.8px */
+}
+
+.pk-heading-06-regular {
+  /* TC/Heading06/Regular */
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 120%; /* 24px */
+}
+
+.pk-body-regular {
+  /* TC / Body / Regular */
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%; /* 24px */
+}
+
+.pk-small-regular {
+  /* TC / Small / Regular */
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+}
+
+.pk-tiny-regular {
+  /* TC / Tiny / Regular */
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 150%; /* 18px */
+}
+
+
+
+.pk-display-01-bold {
+  /* TC / Display01 / Bold */
+  font-size: 160px;
+  font-weight: 900;
+  line-height: 120%; /* 192px */
+}
+
+.pk-display-02-bold {
+  /* TC / Display02 / Bold */
+  font-size: 120px;
+  font-weight: 900;
+  line-height: 120%; /* 144px */
+}
+
+.pk-display-03-bold {
+  /* TC / Display03 / Bold */
+  font-size: 80px;
+  font-weight: 900;
+  line-height: 120%; /* 96px */
+}
+
+.pk-heading-01-bold {
+  /* TC / Heading01 / Bold */
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 120%; /* 57.6px */
+}
+
+.pk-heading-02-bold {
+  /* TC / Heading02 / Bold */
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 120%; /* 48px */
+}
+
+.pk-heading-03-bold {
+  /* TC / Heading03 / Bold */
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 120%; /* 38.4px */
+}
+
+.pk-heading-04-bold {
+  /* TC / Heading04 / Bold */
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 120%; /* 33.6px */
+}
+
+.pk-heading-05-bold {
+  /* TC / Heading05 / Bold */
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 120%; /* 28.8px */
+}
+
+.pk-heading-06-bold {
+  /* TC/Heading06 / Bold */
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 120%; /* 24px */
+}
+
+.pk-body-bold {
+  /* TC / Body / Bold */
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 150%; /* 24px */
+}
+
+.pk-small-bold {
+  /* TC / Small / Bold */
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 150%; /* 21px */
+}
+
+.pk-tiny-bold {
+  /* TC / Tiny / Bold */
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 150%; /* 18px */
+}

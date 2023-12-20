@@ -1,0 +1,154 @@
+/*
+  NOTICE:
+  * CSS reset is already included in the Vuetify/styles file, so there is no need to redundantly set up the CSS reset here.
+
+  VARIABLES NAMING RULES: 
+  * [size][element][rules][modifier] 
+  
+  * [size] - sm, md, lg, xl, 2xl ...
+  * [element] - navbar, header, sidenav, ...
+  * [rules] - bgcolor, color, fontsize, ...
+  * [modifier] - hover, active, visited, ...
+  * e.g. $-lgNavbarTextColorHover
+*/
+
+/* PETKNOW NAVBAR PRIVATE VARIABLES */
+$-lgNavbarHeight: 112px;
+$-lgNavbarTextHoverColor: $pkPrimary;
+$-lgContainerWidth: $pkDesktopWidth;
+$-lgContainerPadding: 1.5rem 0.75rem;
+$-lgItemsHeight: 64px;
+
+$-smNavbarHeight: 80px;
+$-smContainerWidth: 100%;
+$-smContainerPadding: 1.25rem 0.75rem;
+$-smItemsHeight: 40px;
+$-smSubItemsHeight: 56px;
+
+/* PETKNOW NAVBAR STYLES */
+#navbar {
+  background-color: $pkWhite;
+  color: $pkBlack100;
+  height: $-lgNavbarHeight;
+  border-bottom: 1px solid $pkBlack20;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: $-lgContainerPadding;
+    width: $-lgContainerWidth;
+    margin: 0 auto;
+
+    .logo { 
+      height: $-lgItemsHeight; 
+    }
+
+    > * {
+      height: $-lgItemsHeight;  
+    }
+
+    .sm-show { display: none; }
+  }
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  max-width: 416px;
+  height: 64px;
+}
+
+.nav-items {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+
+  a {
+    @extend .pk-fonts;
+    @extend .pk-body-regular;
+    color: $pkBlack100;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+
+    @media (hover: hover) {
+      &:hover {
+        color: $pkPrimary;
+      }
+    }
+  }
+  
+  a.btn.lg-btn {
+    @extend .pk-heading-05-bold;
+    color: $pkWhite;
+    background-color: $pkPrimary;
+    margin: 0 16px;
+    height: $-lgItemsHeight;
+    padding: 0.75rem 28px 0.75rem 2rem;
+    border-radius: 1rem;
+  }
+}
+
+@media (max-width: $-lgContainerWidth) {
+  #navbar {
+    height: $-smNavbarHeight;
+
+    .container {
+      width: $-smContainerWidth;
+      padding: $-smContainerPadding;
+
+
+      .logo { height: $-smItemsHeight; }
+      > * { height: $-smItemsHeight; }
+
+      position: relative;
+      z-index: 999;
+
+      .nav-items a, .nav-items button {
+        width: 40px;
+        height: 40px;
+      }
+
+      .sub-nav-items {
+        position: absolute;
+        top: $-smNavbarHeight;
+        left: 0;
+        background-color: $pkSurface;
+        width: $-smContainerWidth;
+        height: 0px;
+
+        transition: height ease .3s;
+        overflow: hidden;
+        
+        a {
+          width: 100%;
+          height: 56px; 
+          padding: 1rem 0.75rem;
+          background-color: $pkWhite; 
+        }
+        a.btn {
+          position: relative;
+        }
+        a.btn:after {
+          content: "\F19B0";
+          display: block;
+          position: absolute;
+          font: normal normal normal 24px/1 "Material Design Icons";
+          right: 0.75rem;
+        }
+
+        &.sub-nav-open {
+          height: 100vh;
+        }
+      }
+
+      .lg-show { display: none; }
+      .sm-show { display: block; }
+    }
+  }
+}
