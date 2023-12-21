@@ -1,67 +1,9 @@
-# netlify site
+# petKnow Nuxt.js + Vuetify.js version
 
-https://petknow-fe-nuxt-vuetify.netlify.app/
+Demo site: https://pet-know-fe-nuxt-vuetify.vercel.app/
 
-# Nuxt 3 Minimal Starter
+這是一個使用 Nuxt.js + Vuetify.js 所建立的網站。
+為了練習把原來 Vue.js + Naive UI 的網站，改成 Nuxt.js + Vuetify.js 。
+藉此讓組員們熟悉 Nuxt.js.
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install the dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+原本的網站在這裡： https://petknow.netlify.app/
