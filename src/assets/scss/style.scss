@@ -1,1 +1,18 @@
+/*
+  NOTICE:
+  * CSS reset is already included in the Vuetify/styles file, so there is no need to redundantly set up the CSS reset here.
+*/
+
 @use "vuetify/styles";
+
+/* PETKNOW CUSTOM SETTINGS */
+@use "../scss/fonts" as *;
+@use "../scss/colors" as *;
+
+/* PETKNOW BREAKPOINTS */
+$pkDesktopWidth: 1320px;
+$pkMobileWidth: 375px;
+
+/* PETKNOW COMPONENTS STYLES */
+@import "../scss/header";
+
