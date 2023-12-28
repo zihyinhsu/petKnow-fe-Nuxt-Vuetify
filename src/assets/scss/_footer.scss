@@ -1,0 +1,129 @@
+/*
+  NOTICE:
+  * CSS reset is already included in the Vuetify/styles file, so there is no need to redundantly set up the CSS reset here.
+
+  VARIABLES NAMING RULES: 
+  * [size][element][rules][modifier] 
+  
+  * [size] - sm, md, lg, xl, 2xl ...
+  * [element] - navbar, header, sidenav, ...
+  * [rules] - bgcolor, color, fontsize, ...
+  * [modifier] - hover, active, visited, ...
+  * e.g. $-lgNavbarTextColorHover
+*/
+
+/* PETKNOW FOOTER PRIVATE VARIABLES */
+$-lgContainerWidth: $pkDesktopWidth;
+$-lgConainerPadding: 1.5rem 0.75rem 2rem 0.75rem;
+$-lgContainerGap: 64px;
+$-lgLogoHeight: 393px;
+
+$-smContainerWidth: 100%;
+$-smContainerPadding: 1.25rem 0.75rem 1.5rem 0.75rem;
+$-smContainerGap: 48px;
+$-smLogoHeight: 120px;
+
+#footer {
+  .container {
+    width: $-lgContainerWidth;
+    margin: 0 auto;
+    padding: $-lgContainerPadding;
+    display: grid;
+    grid-template: "logo logo" auto "info social" auto "copyright copyright" auto / 1fr 1fr;
+    gap: $-lgContainerGap 0;
+
+    .logo {
+      width: auto;
+      height: $-lgLogoHeight;
+      grid-area: logo;
+    }
+
+    .info {
+      grid-area: info;
+      
+      a {
+        @extend .pk-fonts;
+        @include pk-heading-03-bold;
+        color: $pkBlack100;
+        text-decoration: none;
+        text-align: center;
+        display: flex;
+        align-items: center;
+
+        @media (hover: hover) {
+          &:hover {
+            color: $pkPrimary;
+          }
+        }
+      }
+    }
+
+    .social {
+      grid-area: social;
+
+      a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+      }
+
+      i {
+        font-size: 32px;
+      }
+    }
+
+    .copyright {
+      grid-area: copyright;
+      @include pk-tiny-regular;
+    }
+
+    .info,
+    .social {
+      list-style-type: none;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 40px;
+    }
+  }
+}
+
+@media (max-width: $-lgContainerWidth) {
+  #footer {
+    .container {
+      width: $-smContainerWidth;
+      padding: $-smContainerPadding;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: $-smContainerGap;
+
+      .logo {
+        height: $-smLogoHeight;
+      }
+
+      .info {
+        flex-direction: column;
+        gap: 24px;
+        justify-content: center;
+        align-items: flex-start;
+
+        a {
+          @include pk-heading-06-bold;
+        }
+      }
+
+      .social {
+        gap: 9px;
+
+        i {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+}

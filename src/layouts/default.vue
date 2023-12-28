@@ -22,6 +22,6 @@ watch(
     <AlertComponent :alert-data="alertData" />
     <Header :show-search="showSearch" />
     <slot />
-    <footer>footer</footer>
+    <Footer />
   </div>
 </template>
