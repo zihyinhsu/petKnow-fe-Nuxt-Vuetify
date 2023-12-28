@@ -70,7 +70,7 @@ $-smSubItemsHeight: 56px;
 
   a {
     @extend .pk-fonts;
-    @extend .pk-body-regular;
+    @include pk-body-regular;
     color: $pkBlack100;
     text-decoration: none;
     text-align: center;
@@ -84,7 +84,7 @@ $-smSubItemsHeight: 56px;
   }
   
   a.btn.lg-btn {
-    @extend .pk-heading-05-bold;
+    @include pk-heading-05-bold;
     color: $pkWhite;
     background-color: $pkPrimary;
     margin: 0 16px;
