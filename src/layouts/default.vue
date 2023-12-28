@@ -11,8 +11,8 @@ provide("alertData", alertData);
 <template>
   <div>
     <AlertComponent :alert-data="alertData" />
-    <header>header</header>
+    <header v-if="$route.path !== '/login'">header</header>
     <slot />
-    <footer>footer</footer>
+    <footer v-if="$route.path !== '/login'">footer</footer>
   </div>
 </template>
