@@ -1,25 +1,7 @@
 <template>
   <div>
-    <v-row class="fit100">
+    <v-row class="fit">
       <!-- https://stackoverflow.com/questions/67344913/how-to-fix-mismatching-childnodes-with-vuetify-select-value-saved-in-nuxt-store -->
-      <client-only>
-        <v-snackbar
-          v-model="showNotification"
-          color="white"
-          :timeout="1500"
-          location="top right"
-          multi-line
-        >
-          <h2>{{ msgTitle }}</h2>
-          <br />
-          <p>{{ msgMeta }}</p>
-          <template #actions>
-            <v-btn color="red" variant="text" @click="showNotification = false">
-              Close
-            </v-btn>
-          </template>
-        </v-snackbar>
-      </client-only>
       <v-col cols="4" class="center">
         <div class="text-center"></div>
         <div style="width: 400px" class="d-flex align-center justify-center">
@@ -60,7 +42,7 @@
                     >
                       <template #append-inner>
                         <v-icon
-                          class="hoverable"
+                          class="cursor-pointer"
                           @mousedown="handleMouseDown"
                           @mouseup="handleMouseUp"
                         >
@@ -112,7 +94,7 @@
                     >
                       <template #append-inner>
                         <v-icon
-                          class="hoverable"
+                          class="cursor-pointer"
                           @mousedown="handleMouseDown"
                           @mouseup="handleMouseUp"
                         >
@@ -140,7 +122,6 @@
                     variant="tonal"
                     color="green-accent-4"
                     class="mt-2"
-                    @click="handleLogin"
                     >重設密碼</v-btn
                   >
                 </v-window-item>
@@ -162,15 +143,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { Auth } from "@/api/auth";
+// pinia
+import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/stores/auth";
 const authStore = useAuthStore();
+const { userToken } = storeToRefs(authStore);
+
+// api
+const { Auth } = useApi();
+
 const router = useRouter();
+const alertData: any = inject("alertData");
+
 const selectedTab = ref("");
-const showNotification = ref(false);
-const msgTitle = ref("");
-const msgMeta = ref("");
 
 const showPassword = ref(false);
 const handleMouseDown = (event: MouseEvent) => {
@@ -183,7 +168,7 @@ const handleMouseUp = (event: MouseEvent) => {
   event.preventDefault();
 };
 
-const loginData = reactive({
+const loginData = ref({
   email: "Abc1231@gmail.com",
   password: "Abc123",
 });
@@ -199,92 +184,85 @@ const passwordRule = /^.{6,}$/;
 
 async function handleRegister() {
   // Register 註冊
-  const emailRuleTest = emailRule.test(registerData.value.email);
-  const passwordRuleTest = passwordRule.test(registerData.value.password);
-
-  if (!registerData.value.name) {
-    showNotification.value = true;
-    msgTitle.value = "請輸入姓名";
-    msgMeta.value = "";
-  } else if (!emailRuleTest) {
-    showNotification.value = true;
-    msgTitle.value = "email格式錯誤";
-    msgMeta.value = "請輸入正確的email格式";
-  } else if (!passwordRuleTest) {
-    showNotification.value = true;
-    msgTitle.value = "密碼格式錯誤";
-    msgMeta.value = "請輸入6位數以上的密碼";
-  } else {
-    const registerResult = await Auth.apiPostRegister(registerData.value);
-    try {
-      if (registerResult && registerResult.data.success) {
-        msgTitle.value = "註冊成功";
-        msgMeta.value = "請重新登入";
-        showNotification.value = true;
-
-        selectedTab.value = "login";
-      } else {
-        showNotification.value = true;
-        msgTitle.value = "註冊失敗";
-        msgMeta.value = "請與相關人員聯繫";
-      }
-    } catch {
-      msgTitle.value = "註冊失敗";
-      showNotification.value = true;
+  const { data } = await Auth.apiPostRegister(registerData.value);
+  try {
+    if (data.value?.success) {
+      selectedTab.value = "login";
+      loginData.value = registerData.value;
+      alertData.value = {
+        status: "success",
+        content: "註冊成功 ｜ 請重新登入",
+        visible: true,
+      };
+    } else {
+      alertData.value = {
+        status: "error",
+        content: "註冊失敗 ｜ 請與相關人員聯繫",
+        visible: true,
+      };
     }
+  } catch {
+    alertData.value = {
+      status: "error",
+      content: "註冊失敗 ｜ 請與相關人員聯繫",
+      visible: true,
+    };
   }
 }
 
 async function handleLogin() {
   // Login 登入
-  const emailRuleTest = emailRule.test(loginData.email);
-  const passwordRuleTest = passwordRule.test(loginData.password);
+  try {
+    const { email, password } = loginData.value;
+    const { data } = await Auth.apiPostLogin({
+      email: email.trim(),
+      password,
+    });
+    const { token } = data.value?.data as unknown as { token: string };
+    userToken.value = token;
+    // localStorage 存進 accessToken
+    if (token) localStorage.setItem("accessToken", token);
 
-  if (!emailRuleTest) {
-    showNotification.value = true;
-    msgTitle.value = "email格式錯誤";
-    msgMeta.value = "請輸入正確的email格式";
-  } else if (!passwordRuleTest) {
-    showNotification.value = true;
-    msgTitle.value = "密碼格式錯誤";
-    msgMeta.value = "請輸入6位數以上的密碼";
-  } else {
-    try {
-      const loginResult = await authStore.login(loginData);
-      if (loginResult.success) {
-        showNotification.value = true;
-        msgTitle.value = "登入成功";
-        if (localStorage.getItem("fromVisitorCart")) {
-          router.push("/cart");
-        } else {
-          router.push("/");
-        }
+    if (data.value?.success) {
+      alertData.value = {
+        status: "success",
+        content: "登入成功",
+        visible: true,
+      };
+      if (localStorage.getItem("fromVisitorCart")) {
+        router.push("/cart");
       } else {
-        showNotification.value = true;
-        msgTitle.value = "登入失敗";
-        msgMeta.value = "請輸入正確帳號密碼";
+        router.push("/");
       }
-    } catch (error) {
-      showNotification.value = true;
-      msgTitle.value = "登入失敗";
-      msgMeta.value = "請輸入正確帳號密碼";
+    } else {
+      alertData.value = {
+        status: "error",
+        content: "登入失敗 | 請輸入正確帳號密碼",
+        visible: true,
+      };
     }
+  } catch (error) {
+    alertData.value = {
+      status: "error",
+      content: "登入失敗 | 請輸入正確帳號密碼",
+      visible: true,
+    };
   }
 }
 
 const validationRules = {
-  required: (value: string) => !!value || "Required.",
+  required: (value: string) => !!value || "此欄位為必填.",
   email: (value: string) => {
-    return emailRule.test(value) || "Invalid e-mail.";
+    return emailRule.test(value) || "請輸入正確的email格式";
   },
   password: (value: string) => {
-    return passwordRule.test(value) || "Invalid password.";
+    return passwordRule.test(value) || "請輸入6位數以上的密碼";
   },
 };
 </script>
 
 <style>
-.fit100 {
+.fit {
   height: 100vh;
   width: 100vw;
 }
@@ -305,7 +283,7 @@ const validationRules = {
   align-items: center;
 }
 
-.hoverable {
+.cursor-pointer {
   cursor: pointer;
 }
 </style>
