@@ -20,8 +20,8 @@ watch(
 <template>
   <div>
     <AlertComponent :alert-data="alertData" />
-    <Header :show-search="showSearch" />
+    <Header v-if="$route.path !== '/login'" :show-search="showSearch" />
     <slot />
-    <footer>footer</footer>
+    <footer v-if="$route.path !== '/login'">footer</footer>
   </div>
 </template>
