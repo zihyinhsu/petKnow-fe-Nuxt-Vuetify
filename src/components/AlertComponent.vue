@@ -26,21 +26,17 @@ const props = withDefaults(
 );
 </script>
 <template>
-  <Transition>
-    <div
-      v-if="props.alertData.visible"
-      style="
-        width: 15%;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 100;
-      "
-    >
-      <v-alert :type="props.alertData.status" :text="props.alertData.content" />
-    </div>
-  </Transition>
+  <client-only v-if="props.alertData.visible">
+    <Transition>
+      <div class="alert-position">
+        <v-alert
+          v-if="props.alertData.visible"
+          :type="props.alertData.status"
+          :text="props.alertData.content"
+        />
+      </div>
+    </Transition>
+  </client-only>
 </template>
 
 <style scoped>
@@ -52,5 +48,14 @@ const props = withDefaults(
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+.alert-position {
+  width: auto;
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
 }
 </style>
