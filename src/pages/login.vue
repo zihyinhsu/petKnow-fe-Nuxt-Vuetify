@@ -222,7 +222,7 @@ async function handleLogin() {
     userToken.value = token;
     // localStorage 存進 accessToken
     if (token) localStorage.setItem("accessToken", token);
-
+    console.log("登入結果", data.value);
     if (data.value?.success) {
       alertData.value = {
         status: "success",
