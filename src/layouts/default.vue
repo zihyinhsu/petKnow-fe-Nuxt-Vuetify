@@ -22,6 +22,6 @@ watch(
     <AlertComponent :alert-data="alertData" />
     <Header v-if="$route.path !== '/login'" :show-search="showSearch" />
     <slot />
-    <footer v-if="$route.path !== '/login'">footer</footer>
+    <Footer v-if="$route.path !== '/login'" />
   </div>
 </template>
