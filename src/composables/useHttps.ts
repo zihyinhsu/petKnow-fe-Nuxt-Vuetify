@@ -73,11 +73,15 @@ const fetch = <T>(url: UrlType, option: UseFetchOptions<ResOptions<T>>) => {
         public: { apiBase },
       } = useRuntimeConfig();
       if (apiBase) options.baseURL = apiBase;
+      console.log("apiBase", apiBase);
       // 添加请求头,没登录不携带token
       //   const userStore = useUserStore();
       //   if (!userStore.isLogin) return;
       //   options.headers = new Headers(options.headers);
       //   options.headers.set("Authorization", `Bearer ${userStore.getToken}`);
+      options.headers = {
+        "Content-Type": "application/json",
+      };
       const accessToken = localStorage.getItem("accessToken");
       if (accessToken && options.headers) {
         options.headers = new Headers(options.headers);

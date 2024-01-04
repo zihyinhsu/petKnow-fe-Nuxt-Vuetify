@@ -43,7 +43,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Public keys that are exposed to the client
     public: {
-      apiBase: process.env.VITE_API_URL,
+      apiBase: import.meta.env.VITE_API_URL,
     },
   },
 });
