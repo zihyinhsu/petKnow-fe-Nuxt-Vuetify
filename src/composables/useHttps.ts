@@ -6,9 +6,9 @@ const alertData: any = inject("alertData");
 
 export interface ResOptions<T> {
   data?: T;
-  code?: number;
+  status?: number;
   message?: string;
-  success?: boolean;
+  isSuccess?: boolean;
 }
 
 type UrlType =
@@ -73,12 +73,7 @@ const fetch = <T>(url: UrlType, option: UseFetchOptions<ResOptions<T>>) => {
         public: { apiBase },
       } = useRuntimeConfig();
       if (apiBase) options.baseURL = apiBase;
-      console.log("apiBase", apiBase);
       // 添加请求头,没登录不携带token
-      //   const userStore = useUserStore();
-      //   if (!userStore.isLogin) return;
-      //   options.headers = new Headers(options.headers);
-      //   options.headers.set("Authorization", `Bearer ${userStore.getToken}`);
       options.headers = {
         "Content-Type": "application/json",
       };
@@ -90,10 +85,11 @@ const fetch = <T>(url: UrlType, option: UseFetchOptions<ResOptions<T>>) => {
     },
     // 响应拦截
     onResponse({ response }) {
-      if (response.status === 200) return response._data;
+      if (response.status === 200 || response.status === 201)
+        return response._data;
 
       // 在这里判断错误
-      if (response._data.code !== 200) {
+      if (response._data.code !== 200 || response._data.code !== 201) {
         handleError<T>(response);
         return Promise.reject(response._data);
       }

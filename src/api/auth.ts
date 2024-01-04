@@ -13,18 +13,9 @@ interface registerData {
   password: string;
 }
 
-// export const Auth = {
-//   apiPostLogin(data: loginData) {
-//     return req("post", "/login", data);
-//   },
-//   apiPostRegister(data: registerData) {
-//     return req("post", "/register", data);
-//   },
-// };
-
 enum AuthApi {
-  login = "/login",
-  register = "/register",
+  login = "/auth/login",
+  register = "/auth/signup",
 }
 
 // option就是useFetch的选项参数

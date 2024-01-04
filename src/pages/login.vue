@@ -186,7 +186,7 @@ async function handleRegister() {
   // Register 註冊
   const { data } = await Auth.apiPostRegister(registerData.value);
   try {
-    if (data.value?.success) {
+    if (data.value?.isSuccess) {
       selectedTab.value = "login";
       loginData.value = registerData.value;
       alertData.value = {
@@ -223,10 +223,10 @@ async function handleLogin() {
     // localStorage 存進 accessToken
     if (token) localStorage.setItem("accessToken", token);
 
-    if (data.value?.success) {
+    if (data.value?.isSuccess) {
       alertData.value = {
         status: "success",
-        content: "登入成功",
+        content: data.value.message,
         visible: true,
       };
       if (localStorage.getItem("fromVisitorCart")) {
