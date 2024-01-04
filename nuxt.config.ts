@@ -43,7 +43,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Public keys that are exposed to the client
     public: {
-      apiBase: import.meta.env.VITE_API_URL,
+      apiBase: process.env.VITE_API_URL || "https://petknow-be.onrender.com/v1",
     },
   },
 });
