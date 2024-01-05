@@ -31,5 +31,19 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [eslint()],
+    server: {
+      proxy: {
+        "/api": {
+          target: process.env.VITE_API_URL,
+          changeOrigin: true,
+        },
+      },
+    },
+  },
+  runtimeConfig: {
+    // Public keys that are exposed to the client
+    public: {
+      apiBase: process.env.VITE_API_URL || "https://petknow-be.onrender.com/v1",
+    },
   },
 });
