@@ -14,12 +14,18 @@
         </h2>
         <SearchButton
           :text="'搜尋'"
-          @click="router.push(`/search/${searchStore.searchKeyword}`)"
+          @click="$router.push(`/search/${searchStore.searchKeyword}`)"
         />
       </div>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useSearchStore } from "@/stores/search";
+import SearchButton from "@/components/SearchButton.vue";
+const searchStore = useSearchStore();
+</script>
 
 <style scoped lang="scss">
 .wrapper {
