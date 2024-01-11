@@ -144,6 +144,7 @@
 
 <script setup lang="ts">
 // pinia
+import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/stores/auth";
 const authStore = useAuthStore();
@@ -154,10 +155,9 @@ const { Auth } = useApi();
 
 const router = useRouter();
 const alertData: any = inject("alertData");
-
 const selectedTab = ref("");
-
 const showPassword = ref(false);
+
 const handleMouseDown = (event: MouseEvent) => {
   showPassword.value = true;
   event.preventDefault();
