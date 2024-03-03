@@ -18,7 +18,7 @@ enum AuthApi {
   register = "/auth/signup",
 }
 
-// option就是useFetch的选项参数
+// option 就是 useFetch 的選項參數
 export const apiPostLogin = async (
   params: loginData,
   option?: HttpOption<resultType>
