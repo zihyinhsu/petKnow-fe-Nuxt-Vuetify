@@ -44,14 +44,6 @@ const toggleSubMenu = (showMenu: boolean) => {
         <nuxt-link to="/mycourse">我開的課</nuxt-link>
         <nuxt-link to="/myclass">我的課堂</nuxt-link>
         <v-btn to="/cart" icon="mdi-cart" variant="plain"></v-btn>
-        <v-btn
-          to="/becoming-teacher"
-          append-icon="mdi-arrow-right-thin"
-          flat
-          class="btn lg-btn"
-        >
-          成為講師
-        </v-btn>
       </div>
 
       <!-- mobile nav items -->
@@ -73,7 +65,6 @@ const toggleSubMenu = (showMenu: boolean) => {
         <nuxt-link to="/myclass">我的課堂</nuxt-link>
         <nuxt-link to="/mycourse">我開的課</nuxt-link>
         <nuxt-link to="/mycourse">購買記錄</nuxt-link>
-        <nuxt-link to="/becoming-teacher" class="btn"> 成為講師 </nuxt-link>
       </div>
     </div>
   </nav>
