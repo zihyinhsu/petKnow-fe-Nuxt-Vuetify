@@ -55,27 +55,25 @@ const toggleSubMenu = (showMenu: boolean) => {
       </div>
 
       <!-- mobile nav items -->
-      <div class="sm-show">
-        <div class="nav-items" :class="{ 'sub-nav-open': showSubMenu }">
-          <v-btn to="/cart" icon="mdi-cart" variant="plain"></v-btn>
-          <v-btn
-            icon="mdi-menu"
-            variant="plain"
-            @click="toggleSubMenu(showSubMenu)"
-          ></v-btn>
-        </div>
+      <div class="sm-show nav-items" :class="{ 'sub-nav-open': showSubMenu }">
+        <v-btn to="/cart" icon="mdi-cart" variant="plain"></v-btn>
+        <v-btn
+          icon="mdi-menu"
+          variant="plain"
+          @click="toggleSubMenu(showSubMenu)"
+        ></v-btn>
+      </div>
 
-        <!-- mobile sub nav items -->
-        <div
-          class="sm-show nav-items sub-nav-items"
-          :class="{ 'sub-nav-open': showSubMenu }"
-        >
-          <nuxt-link to="/profile">個人資料</nuxt-link>
-          <nuxt-link to="/myclass">我的課堂</nuxt-link>
-          <nuxt-link to="/mycourse">我開的課</nuxt-link>
-          <nuxt-link to="/mycourse">購買記錄</nuxt-link>
-          <nuxt-link to="/becoming-teacher" class="btn"> 成為講師 </nuxt-link>
-        </div>
+      <!-- mobile sub nav items -->
+      <div
+        class="sm-show nav-items sub-nav-items"
+        :class="{ 'sub-nav-open': showSubMenu }"
+      >
+        <nuxt-link to="/profile">個人資料</nuxt-link>
+        <nuxt-link to="/myclass">我的課堂</nuxt-link>
+        <nuxt-link to="/mycourse">我開的課</nuxt-link>
+        <nuxt-link to="/mycourse">購買記錄</nuxt-link>
+        <nuxt-link to="/becoming-teacher" class="btn"> 成為講師 </nuxt-link>
       </div>
     </div>
   </nav>
