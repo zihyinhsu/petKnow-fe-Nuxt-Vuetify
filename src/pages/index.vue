@@ -134,9 +134,9 @@ async function getUser() {
 }
 
 onMounted(() => {
-  console.log("mounted process.client", process.client);
+  // console.log("mounted process.client", process.client);
   accessToken = ref<string | null>(localStorage.getItem("accessToken"));
-  console.log("accessToken.value: ", accessToken.value);
+  // console.log("accessToken.value: ", accessToken.value);
   getUser();
   if (accessToken.value) isLogin.value = true;
   // isLogin.value = true; // workaround
