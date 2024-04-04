@@ -91,7 +91,7 @@
               :price="1600"
             />
           </div>
-          <div class="flex-center">
+          <!-- <div class="flex-center">
             <button
               class="search-btn-phone"
               @click="router.push('/courseIntro/6493d9c4127ca634f0eeb6f7')"
@@ -101,7 +101,7 @@
                 <ArrowRightAltSharp />
               </v-icon>
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -113,13 +113,13 @@
 // import SearchButton from "@/components/SearchButton.vue";
 // const searchStore = useSearchStore();
 
-import { useRouter } from "vue-router";
-import { ArrowRightAltSharp } from "@vicons/material";
+// import { useRouter } from "vue-router";
+// import { ArrowRightAltSharp } from "@vicons/material";
+// const router = useRouter();
 // import { useUserStore } from "@/stores/user";
 import courseCardImg from "@/assets/landing-page/course-card-img.png";
 // const userStore = useUserStore();
 const isLogin = ref(true);
-const router = useRouter();
 // const accessToken = ref<string | null>("");
 const user = ref<{
   nickName: string;
