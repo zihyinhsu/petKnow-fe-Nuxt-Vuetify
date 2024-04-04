@@ -114,9 +114,9 @@
 // const searchStore = useSearchStore();
 
 import { useRouter } from "vue-router";
-import { ArrowRightAltSharp } from "@vicons/material";
+// import { ArrowRightAltSharp } from "@vicons/material";
 // import { useUserStore } from "@/stores/user";
-import courseCardImg from "@/assets/landing-page/course-card-img.png";
+// import courseCardImg from "@/assets/landing-page/course-card-img.png";
 // const userStore = useUserStore();
 const isLogin = ref(true);
 const router = useRouter();
