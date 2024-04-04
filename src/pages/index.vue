@@ -55,7 +55,7 @@
             </swiper-slide>
           </swiper>
         </div>
-        <!-- <div class="next-step-section-pc">
+        <div class="next-step-section-pc">
           <h3 class="en-title mb-2 d-flex align-items-center">NEXT STEP</h3>
           <p class="cn-title mb-9">為您挑選</p>
           <SearchButton
@@ -102,7 +102,7 @@
               </v-icon>
             </button>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
@@ -114,9 +114,9 @@
 // const searchStore = useSearchStore();
 
 import { useRouter } from "vue-router";
-// import { ArrowRightAltSharp } from "@vicons/material";
+import { ArrowRightAltSharp } from "@vicons/material";
 // import { useUserStore } from "@/stores/user";
-// import courseCardImg from "@/assets/landing-page/course-card-img.png";
+import courseCardImg from "@/assets/landing-page/course-card-img.png";
 // const userStore = useUserStore();
 const isLogin = ref(true);
 const router = useRouter();
