@@ -16,7 +16,7 @@
         />
       </div>
     </div>
-    <div v-if="isLogin" class="user-recommend-section">
+    <!-- <div v-if="isLogin" class="user-recommend-section">
       <div class="container">
         <div class="just-for-you-section">
           <h3 class="en-title mb-2 d-flex align-items-center">JUST FOR YOU</h3>
@@ -104,7 +104,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -137,7 +137,7 @@ onMounted(() => {
   // console.log("mounted process.client", process.client);
   accessToken = ref<string | null>(localStorage.getItem("accessToken"));
   // console.log("accessToken.value: ", accessToken.value);
-  getUser();
+  // getUser();
   if (accessToken.value) isLogin.value = true;
   // isLogin.value = true; // workaround
 });
