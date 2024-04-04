@@ -109,13 +109,14 @@
 </template>
 
 <script setup lang="ts">
+// import { useSearchStore } from "@/stores/search";
+// import SearchButton from "@/components/SearchButton.vue";
+// const searchStore = useSearchStore();
+
 // import { useRouter } from "vue-router";
 // import { ArrowRightAltSharp } from "@vicons/material";
-import { useSearchStore } from "@/stores/search";
 // import { useUserStore } from "@/stores/user";
 // import courseCardImg from "@/assets/landing-page/course-card-img.png";
-import SearchButton from "@/components/SearchButton.vue";
-const searchStore = useSearchStore();
 // const userStore = useUserStore();
 // const isLogin = ref(false);
 // // const router = useRouter();
