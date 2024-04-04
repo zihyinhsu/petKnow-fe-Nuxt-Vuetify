@@ -109,29 +109,29 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
-import { ArrowRightAltSharp } from "@vicons/material";
+// import { useRouter } from "vue-router";
+// import { ArrowRightAltSharp } from "@vicons/material";
 import { useSearchStore } from "@/stores/search";
-import { useUserStore } from "@/stores/user";
-import courseCardImg from "@/assets/landing-page/course-card-img.png";
+// import { useUserStore } from "@/stores/user";
+// import courseCardImg from "@/assets/landing-page/course-card-img.png";
 import SearchButton from "@/components/SearchButton.vue";
 const searchStore = useSearchStore();
-const userStore = useUserStore();
+// const userStore = useUserStore();
 const isLogin = ref(false);
-const router = useRouter();
+// const router = useRouter();
 let accessToken = ref<string | null>("");
-const user = ref<{
-  nickName: string;
-}>({ nickName: "親愛的" });
+// const user = ref<{
+//   nickName: string;
+// }>({ nickName: "親愛的" });
 
-async function getUser() {
-  if (!accessToken.value) {
-    console.log("no token");
-    return;
-  }
-  const userData = await userStore.getUserData();
-  user.value.nickName = userData.nickname || "親愛的";
-}
+// async function getUser() {
+//   if (!accessToken.value) {
+//     console.log("no token");
+//     return;
+//   }
+//   const userData = await userStore.getUserData();
+//   user.value.nickName = userData.nickname || "親愛的";
+// }
 
 onMounted(() => {
   // console.log("mounted process.client", process.client);
@@ -143,38 +143,38 @@ onMounted(() => {
 });
 
 // 開始學習（寫死）
-const learningList = ref([
-  {
-    imageUrl:
-      "https://images.unsplash.com/photo-1532971731140-1d7cccc06c3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    tag: "寵物行為問題解決指南",
-    info: "1.觀察行為模式",
-    time: 8,
-    title: "第一節：問題行為評估",
-    _id: "6493d9c4127ca634f0eebac9",
-    isBuy: true,
-  },
-  {
-    imageUrl:
-      "https://images.unsplash.com/photo-1491485880348-85d48a9e5312?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fGNhdHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
-    tag: "寵物洗澡技巧與注意事項",
-    info: "1.選擇洗澡地點",
-    time: 15,
-    title: "第一章：準備工作",
-    _id: "6493d9c4127ca634f0eebaa6",
-    isBuy: true,
-  },
-  {
-    imageUrl:
-      "https://images.unsplash.com/photo-1598134493179-51332e56807f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    tag: "狗狗解悶遊戲指南",
-    info: "1.狗狗解悶遊戲對健康的影響",
-    time: 13,
-    title: "第一章：遊戲的重要性",
-    _id: "6493d9c2127ca634f0eeafb6",
-    isBuy: true,
-  },
-]);
+// const learningList = ref([
+//   {
+//     imageUrl:
+//       "https://images.unsplash.com/photo-1532971731140-1d7cccc06c3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+//     tag: "寵物行為問題解決指南",
+//     info: "1.觀察行為模式",
+//     time: 8,
+//     title: "第一節：問題行為評估",
+//     _id: "6493d9c4127ca634f0eebac9",
+//     isBuy: true,
+//   },
+//   {
+//     imageUrl:
+//       "https://images.unsplash.com/photo-1491485880348-85d48a9e5312?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fGNhdHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+//     tag: "寵物洗澡技巧與注意事項",
+//     info: "1.選擇洗澡地點",
+//     time: 15,
+//     title: "第一章：準備工作",
+//     _id: "6493d9c4127ca634f0eebaa6",
+//     isBuy: true,
+//   },
+//   {
+//     imageUrl:
+//       "https://images.unsplash.com/photo-1598134493179-51332e56807f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+//     tag: "狗狗解悶遊戲指南",
+//     info: "1.狗狗解悶遊戲對健康的影響",
+//     time: 13,
+//     title: "第一章：遊戲的重要性",
+//     _id: "6493d9c2127ca634f0eeafb6",
+//     isBuy: true,
+//   },
+// ]);
 </script>
 
 <style scoped lang="scss">
