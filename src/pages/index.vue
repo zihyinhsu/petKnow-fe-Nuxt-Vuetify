@@ -21,7 +21,7 @@
         <div class="just-for-you-section">
           <h3 class="en-title mb-2 d-flex align-items-center">JUST FOR YOU</h3>
           <p class="mb-4">{{ user.nickName }}，開始學習</p>
-          <swiper
+          <!-- <swiper
             class="swiper"
             :space-between="20"
             :slides-per-view="1.2"
@@ -53,15 +53,15 @@
                 :is-buy="item.isBuy"
               />
             </swiper-slide>
-          </swiper>
+          </swiper> -->
         </div>
         <div class="next-step-section-pc">
           <h3 class="en-title mb-2 d-flex align-items-center">NEXT STEP</h3>
           <p class="cn-title mb-9">為您挑選</p>
-          <SearchButton
+          <!-- <SearchButton
             :text="'立即上課'"
             @click="router.push('/courseIntro/6493d9c4127ca634f0eeb6f7')"
-          />
+          /> -->
 
           <div class="course-card-section">
             <CourseCard-856-517
