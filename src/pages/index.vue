@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper">
-    <h1>Index page</h1>
-    <!-- <div class="hero-section">
+    <div class="hero-section">
       <div class="hero-img"></div>
       <div class="scroll-arrow">
         <img src="@/assets/landing-page/scroll-arrow.png" alt="scroll-arrow" />
@@ -16,7 +15,7 @@
           @click="$router.push(`/search/${searchStore.searchKeyword}`)"
         />
       </div>
-    </div> -->
+    </div>
     <!-- <div v-if="isLogin" class="user-recommend-section">
       <div class="container">
         <div class="just-for-you-section">
@@ -112,11 +111,11 @@
 <script setup lang="ts">
 // import { useRouter } from "vue-router";
 // import { ArrowRightAltSharp } from "@vicons/material";
-// import { useSearchStore } from "@/stores/search";
+import { useSearchStore } from "@/stores/search";
 // import { useUserStore } from "@/stores/user";
 // import courseCardImg from "@/assets/landing-page/course-card-img.png";
-// import SearchButton from "@/components/SearchButton.vue";
-// const searchStore = useSearchStore();
+import SearchButton from "@/components/SearchButton.vue";
+const searchStore = useSearchStore();
 // const userStore = useUserStore();
 // const isLogin = ref(false);
 // // const router = useRouter();
