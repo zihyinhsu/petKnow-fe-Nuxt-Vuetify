@@ -10,10 +10,10 @@
           掌握養寵必備知識 共創寵物相伴<br />
           美好時光
         </h2>
-        <SearchButton
+        <!-- <SearchButton
           :text="'搜尋'"
           @click="$router.push(`/search/${searchStore.searchKeyword}`)"
-        />
+        /> -->
       </div>
     </div>
     <!-- <div v-if="isLogin" class="user-recommend-section">
