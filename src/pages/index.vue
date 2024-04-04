@@ -55,7 +55,7 @@
             </swiper-slide>
           </swiper>
         </div>
-        <div class="next-step-section-pc">
+        <!-- <div class="next-step-section-pc">
           <h3 class="en-title mb-2 d-flex align-items-center">NEXT STEP</h3>
           <p class="cn-title mb-9">為您挑選</p>
           <SearchButton
@@ -102,7 +102,7 @@
               </v-icon>
             </button>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
