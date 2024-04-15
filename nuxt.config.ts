@@ -45,7 +45,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Public keys that are exposed to the client
     public: {
-      apiBase: "http://localhost:3000", // process.env.VITE_API_URL,
+      apiBase: process.env.VITE_API_URL, // "http://localhost:3000",
     },
   },
 });
