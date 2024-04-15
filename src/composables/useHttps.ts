@@ -1,14 +1,14 @@
 import { UseFetchOptions } from "nuxt/app";
 import type { FetchResponse, SearchParameters } from "ofetch";
-import type { Ref } from "vue";
+import { alertDataType } from "@/components/AlertComponent.vue";
 
-const alertData: any = inject("alertData");
+const alertData = inject<Ref<alertDataType>>("alertData")!;
 
 export interface ResOptions<T> {
-  data?: T;
-  status?: number;
-  message?: string;
-  isSuccess?: boolean;
+  data: T;
+  status: number;
+  message: string;
+  isSuccess: boolean;
 }
 
 type UrlType =
@@ -25,7 +25,7 @@ const handleError = <T>(
   const err = (text: string) => {
     alertData.value = {
       status: "error",
-      content: response?._data?.message ?? text,
+      content: response?._data?.message ?? text ?? "",
       visible: true,
     };
   };
@@ -108,19 +108,19 @@ const fetch = <T>(url: UrlType, option: UseFetchOptions<ResOptions<T>>) => {
 
 // 自动导出
 export const useHttp = {
-  get: <T>(url: UrlType, params?: any, option?: HttpOption<T>) => {
-    return fetch<T>(url, { method: "get", params, ...option });
+  get: async <T>(url: UrlType, params?: any, option?: HttpOption<T>) => {
+    return await fetch<T>(url, { method: "get", params, ...option });
   },
 
-  post: <T>(url: UrlType, body?: any, option?: HttpOption<T>) => {
-    return fetch<T>(url, { method: "post", body, ...option });
+  post: async <T>(url: UrlType, body?: any, option?: HttpOption<T>) => {
+    return await fetch<T>(url, { method: "post", body, ...option });
   },
 
-  put: <T>(url: UrlType, body?: any, option?: HttpOption<T>) => {
-    return fetch<T>(url, { method: "put", body, ...option });
+  patch: async <T>(url: UrlType, body?: any, option?: HttpOption<T>) => {
+    return await fetch<T>(url, { method: "patch", body, ...option });
   },
 
-  delete: <T>(url: UrlType, body?: any, option?: HttpOption<T>) => {
-    return fetch<T>(url, { method: "delete", body, ...option });
+  delete: async <T>(url: UrlType, body?: any, option?: HttpOption<T>) => {
+    return await fetch<T>(url, { method: "delete", body, ...option });
   },
 };
