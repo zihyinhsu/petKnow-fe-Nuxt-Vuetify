@@ -9,7 +9,7 @@
         <CartComponent
           v-for="item in cartStore.cartData"
           :id="item._id"
-          :key="item?._id"
+          :key="item._id"
           :image-url="item.cover"
           :level="item.level"
           :title="item.title"
@@ -49,7 +49,7 @@
         <div class="d-flex flex-between coupon" style="padding: 1rem">
           <div>優惠券折抵</div>
           <!-- bvCyXjGL -->
-          <div v-if="cartStore.couponValue">
+          <!-- <div v-if="cartStore.couponValue">
             <div
               style="margin: 16px 0"
               closable
@@ -57,17 +57,17 @@
             >
               {{ cartStore.couponLabel }}
             </div>
-          </div>
-          <input
+          </div> -->
+          <!-- <input
             v-else
             :value="cartStore.couponValue"
             class="coupon-input"
             type="text"
             placeholder="請輸入優惠券碼"
             @update:value="cartStore.addCoupon"
-          />
+          /> -->
         </div>
-        <button
+        <!-- <button
           style="
             background: #ed888c;
             color: #fff;
@@ -79,7 +79,7 @@
         >
           下一步
           <v-icon icon="mdi-arrow-right" size="16" color="#fffff"> </v-icon>
-        </button>
+        </button> -->
       </div>
 
       <div style="margin: 40px 0">
@@ -127,20 +127,20 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import CartComponent from "@/components/CartComponent.vue";
 import { useCartStore } from "@/stores/cart";
 const router = useRouter();
-
 const cartStore = useCartStore();
 
-onMounted(async () => {
-  if (
-    localStorage.getItem("accessToken") !== "" &&
-    localStorage.getItem("fromVisitorCart") === "true"
-  ) {
-    localStorage.removeItem("fromVisitorCart");
-  }
-  await cartStore.getCartData();
+onMounted(() => {
+  // if (
+  //   localStorage.getItem("accessToken") !== "" &&
+  //   localStorage.getItem("fromVisitorCart") === "true"
+  // ) {
+  //   localStorage.removeItem("fromVisitorCart");
+  // }
+  nextTick(() => {
+    cartStore.getCartData();
+  });
 });
 </script>
 
