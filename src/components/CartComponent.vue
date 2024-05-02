@@ -25,7 +25,7 @@ const formattedDiscountPrice = props.discountPrice?.toLocaleString();
       <img
         :src="imageUrl"
         alt="course-img"
-        @click="router.push(`/courseIntro/${id}`)"
+        @click="router.push(`/courseIntro/${$props.id}`)"
       />
     </div>
     <div class="flex column" style="width: 100%">
@@ -34,27 +34,27 @@ const formattedDiscountPrice = props.discountPrice?.toLocaleString();
           <div style="width: 100%">
             <p
               class="title cursor-pointer"
-              @click="router.push(`/courseIntro/${id}`)"
+              @click="router.push(`/courseIntro/${$props.id}`)"
             >
               {{ title }}
             </p>
           </div>
           <div class="flex items-md-center column-sm" style="width: auto">
             <p
-              v-if="props.discountPrice"
+              v-if="$props.discountPrice"
               class="discountPrice"
               style="margin-right: 1rem"
             >
               NT${{ formattedDiscountPrice }}
             </p>
-            <p :class="props.discountPrice ? 'price' : 'discountPrice'">
+            <p :class="$props.discountPrice ? 'price' : 'discountPrice'">
               NT${{ formattedPrice }}
             </p>
             <div style="width: 3rem">
               <button
                 class="removeBtn"
                 quaternary
-                @click="cartStore.deleteCart(String(id))"
+                @click="cartStore.deleteCart($props.id)"
               >
                 移除
               </button>
@@ -62,7 +62,7 @@ const formattedDiscountPrice = props.discountPrice?.toLocaleString();
           </div>
         </div>
         <v-chip
-          v-for="(item, index) in props.tagNames"
+          v-for="(item, index) in $props.tagNames"
           :key="index"
           style="margin: 16px 0"
           >{{ item }}</v-chip

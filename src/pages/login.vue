@@ -147,14 +147,16 @@
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/stores/auth";
+
+// api
+import Auth from "@/api/auth";
+import { alertDataType } from "@/components/AlertComponent.vue";
 const authStore = useAuthStore();
 const { userToken } = storeToRefs(authStore);
 
-// api
-const { Auth } = useApi();
-
 const router = useRouter();
-const alertData: any = inject("alertData");
+
+const alertData = inject<Ref<alertDataType>>("alertData")!;
 
 const selectedTab = ref("");
 
@@ -227,7 +229,7 @@ async function handleLogin() {
     if (data.value?.isSuccess) {
       alertData.value = {
         status: "success",
-        content: data.value.message,
+        content: data.value.message ?? "",
         visible: true,
       };
       if (localStorage.getItem("fromVisitorCart")) {

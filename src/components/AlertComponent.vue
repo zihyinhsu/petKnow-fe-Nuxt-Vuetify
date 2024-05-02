@@ -1,11 +1,11 @@
 <script setup lang="ts">
-const alertDatas: any = inject("alertData");
-
 export interface alertDataType {
   status: "error" | "success" | "warning" | "info" | undefined;
   content: string;
   visible: boolean;
 }
+const alertDatas = inject<Ref<alertDataType>>("alertData")!;
+
 watch(
   () => props.alertData.visible,
   (newVal) => {

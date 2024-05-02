@@ -35,9 +35,9 @@ export default defineNuxtConfig({
     server: {
       proxy: {
         "/api": {
-          target: process.env.VITE_API_URL,
+          target: "http://localhost:3000", // process.env.VITE_API_URL
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ""),
+          // rewrite: (path) => path.replace(/^\/api/, ""),
         },
       },
     },
@@ -45,7 +45,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Public keys that are exposed to the client
     public: {
-      apiBase: "/api",
+      apiBase: process.env.VITE_API_URL, // "http://localhost:3000",
     },
   },
 });
