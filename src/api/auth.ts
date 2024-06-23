@@ -1,3 +1,5 @@
+import { IUser } from "./user";
+
 interface loginData {
   email: string;
   password: string;
@@ -9,11 +11,13 @@ interface registerData {
 }
 
 const Auth = {
-  apiPostLogin(params: loginData) {
-    return useHttp.post("/auth/login", params);
+  apiPostLogin(params: loginData, option?: HttpOption<IUser>) {
+    return useHttp.post<IUser>("/auth/login", params, {
+      ...option,
+    });
   },
   apiPostRegister(params: registerData) {
-    return useHttp.post("/auth/signup", params);
+    return useHttp.post<IUser>("/auth/signup", params);
   },
 };
 

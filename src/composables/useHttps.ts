@@ -1,126 +1,151 @@
-import { UseFetchOptions } from "nuxt/app";
-import type { FetchResponse, SearchParameters } from "ofetch";
-import { alertDataType } from "@/components/AlertComponent.vue";
+import type { UseFetchOptions, AsyncData } from "nuxt/app";
+import type { FetchError, FetchResponse, SearchParameters } from "ofetch";
+import { hash } from "ohash";
 
-const alertData = inject<Ref<alertDataType>>("alertData")!;
-
-export interface ResOptions<T> {
-  data: T;
+export interface AxiosResponse<T> {
+  data?: T;
   status: number;
   message: string;
   isSuccess: boolean;
 }
+
+type KeysOf<T> = Array<
+  T extends T ? (keyof T extends string ? keyof T : never) : never
+>;
+// type PickFrom<T, K extends Array<string>> = T extends Array<any>
+//   ? T
+//   : T extends Record<string, any>
+//   ? keyof T extends K[number]
+//     ? T
+//     : K[number] extends never
+//     ? T
+//     : Pick<T, K[number]>
+//   : T;
 
 type UrlType =
   | string
   | Request
   | Ref<string | Request>
   | (() => string | Request);
+type $TSFixed = any; // Fix the TypeScript error
 
-export type HttpOption<T> = UseFetchOptions<ResOptions<T>>;
+interface ResOptions<T> {
+  data?: T;
+  status: number;
+  message: string;
+  isSuccess: boolean;
+}
 
-const handleError = <T>(
-  response: FetchResponse<ResOptions<T>> & FetchResponse<ResponseType>
-) => {
-  const err = (text: string) => {
-    alertData.value = {
-      status: "error",
-      content: response?._data?.message ?? text ?? "",
-      visible: true,
-    };
-  };
-  if (!response._data) {
-    err("请求超时，服务器无响应！");
-    return;
-  }
-  //   const userStore = useUserStore();
-  const handleMap: { [key: number]: () => void } = {
-    404: () => err("服务器资源不存在"),
-    500: () => err("服务器内部错误"),
-    403: () => err("没有权限访问该资源"),
-    401: () => {
-      err("登录状态已过期，需要重新登录");
-      //   authStore.logout();
-      // TODO 跳转实际登录页
-      navigateTo("/");
-    },
-  };
-  handleMap[response.status] ? handleMap[response.status]() : err("未知错误！");
-};
+export type HttpOption<T> = UseFetchOptions<
+  ResOptions<T>,
+  T,
+  KeysOf<T>,
+  $TSFixed
+>;
 
-// get方法传递数组形式参数
-const paramsSerializer = (params?: SearchParameters) => {
-  if (!params) return;
+function handleError<T>(
+  _method: string | undefined,
+  _response: FetchResponse<ResOptions<T>> & FetchResponse<ResponseType>
+) {
+  // Handle the error
+}
 
-  const query = JSON.parse(JSON.stringify(params));
-  Object.entries(query).forEach(([key, val]) => {
-    if (typeof val === "object" && Array.isArray(val) && val !== null) {
-      query[`${key}[]`] = toRaw(val).map((v: any) => JSON.stringify(v));
-      delete query[key];
-    }
-  });
-  return query;
-};
+function checkRef(obj: Record<string, any>) {
+  return Object.keys(obj).some((key) => isRef(obj[key]));
+}
+function fetch<T>(url: UrlType, opts: HttpOption<T>) {
+  // Check the `key` option
+  const { key, params, watch } = opts;
+  if (!key && ((params && checkRef(params)) || (watch && checkRef(watch))))
+    console.error(
+      "\x1B[31m%s\x1B[0m %s",
+      "[useHttp] [error]",
+      "The `key` option is required when `params` or `watch` has ref properties, please set a unique key for the current request."
+    );
 
-const fetch = <T>(url: UrlType, option: UseFetchOptions<ResOptions<T>>) => {
+  const options = opts as UseFetchOptions<ResOptions<T>>;
+  options.lazy = options.lazy ?? true;
+
+  // const { apiBase } = useRuntimeConfig().public;
+
   return useFetch<ResOptions<T>>(url, {
-    // 请求拦截器
+    // Request interception
     onRequest({ options }) {
-      // get方法传递数组形式参数
-      options.params = paramsSerializer(options.params);
-      // 添加baseURL,nuxt3环境变量要从useRuntimeConfig里面取
+      // Set the base URL
       const {
         public: { apiBase },
       } = useRuntimeConfig();
-      if (apiBase) options.baseURL = apiBase;
-      // 添加请求头,没登录不携带token
+
+      if (apiBase && typeof apiBase === "string") options.baseURL = apiBase;
+      // Set the request headers
+      // const { $i18n } = useNuxtApp()
+      // const locale = $i18n.locale.value
       options.headers = {
         "Content-Type": "application/json",
       };
-      const accessToken = localStorage.getItem("accessToken");
-      if (accessToken && options.headers) {
-        options.headers = new Headers(options.headers);
-        options.headers.set("Authorization", `Bearer ${accessToken}`);
-      }
+      options.headers = new Headers(options.headers);
+      // options.headers.set('Content-Language', locale)
     },
-    // 响应拦截
-    onResponse({ response }) {
-      if (response.status === 200 || response.status === 201)
-        return response._data;
-
-      // 在这里判断错误
-      if (response._data.code !== 200 || response._data.code !== 201) {
-        handleError<T>(response);
-        return Promise.reject(response._data);
-      }
-      // 成功返回
-      return response._data;
+    // Response interception
+    onResponse(_context) {
+      // Handle the response
     },
-    // 错误处理
-    onResponseError({ response }) {
-      handleError<T>(response);
-      return Promise.reject(response?._data ?? null);
+    // Error interception
+    onResponseError({ response, options: { method } }) {
+      handleError<T>(method, response);
     },
-    // 合并参数
-    ...option,
-  });
-};
-
-// 自动导出
+    // Set the cache key
+    key: key ?? hash(["api-fetch", url, JSON.stringify(options)]),
+    // Merge the options
+    ...options,
+  }) as AsyncData<ResOptions<T>, FetchError<ResOptions<T>> | null>;
+}
+const baseUrl = "/api";
 export const useHttp = {
-  get: async <T>(url: UrlType, params?: any, option?: HttpOption<T>) => {
-    return await fetch<T>(url, { method: "get", params, ...option });
+  get: <T>(url: UrlType, params?: SearchParameters, option?: HttpOption<T>) => {
+    url = baseUrl + url;
+    let str = "";
+    Object.entries(params as object).forEach(function ([key, value], index) {
+      if (index === 0) str += `${key}=${value}`;
+      else str += `&${key}=${value}`;
+    });
+    // console.log(
+    //   "method:" +
+    //     "get" +
+    //     " || url:" +
+    //     `${url}?${str}` +
+    //     " || data:" +
+    //     JSON.stringify(params)
+    // );
+
+    return fetch<T>(`${url}?${str}`, {
+      method: "get",
+      params,
+      ...option,
+    });
   },
 
-  post: async <T>(url: UrlType, body?: any, option?: HttpOption<T>) => {
-    return await fetch<T>(url, { method: "post", body, ...option });
+  post: <T>(
+    url: UrlType,
+    body?: RequestInit["body"] | Record<string, any>,
+    option?: HttpOption<T>
+  ) => {
+    return fetch<T>(url, { method: "post", body, ...option });
   },
 
-  patch: async <T>(url: UrlType, body?: any, option?: HttpOption<T>) => {
-    return await fetch<T>(url, { method: "patch", body, ...option });
+  patch: <T>(
+    url: UrlType,
+    body?: RequestInit["body"] | Record<string, any>,
+    option?: HttpOption<T>
+  ) => {
+    return fetch<T>(url, { method: "patch", body, ...option });
   },
 
-  delete: async <T>(url: UrlType, body?: any, option?: HttpOption<T>) => {
-    return await fetch<T>(url, { method: "delete", body, ...option });
+  delete: <T>(
+    url: UrlType,
+    body?: RequestInit["body"] | Record<string, any>,
+    option?: HttpOption<T>
+  ) => {
+    return fetch<T>(url, { method: "delete", body, ...option });
   },
 };
