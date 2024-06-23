@@ -221,10 +221,9 @@ async function handleLogin() {
       email: email.trim(),
       password,
     });
-    const { token } = data.value?.data as unknown as { token: string };
-    userToken.value = token;
+    userToken.value = data.value?.data?.token;
     // localStorage 存進 accessToken
-    if (token) localStorage.setItem("accessToken", token);
+    if (userToken.value) localStorage.setItem("accessToken", userToken.value);
 
     if (data.value?.isSuccess) {
       alertData.value = {
