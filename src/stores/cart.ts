@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-// import type { AxiosResponse } from "axios";
 import { ref } from "vue";
 // import { useRouter } from "vue-router";
 import Cart, { CourseType } from "@/api/cart.js";
@@ -27,9 +26,9 @@ export const useCartStore = defineStore("cart", () => {
       console.log("getCartData", data);
 
       if (data.value?.isSuccess) {
-        cartData.value = data.value.data?.courses;
-        totalPrice.value = data.value.data.totalPrice;
-        discountedPrice.value = data.value.data.discountedPrice;
+        cartData.value = data.value.data?.courses || [];
+        totalPrice.value = data.value.data?.totalPrice || 0;
+        discountedPrice.value = data.value.data?.discountedPrice || 0;
       }
     }
   }

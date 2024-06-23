@@ -114,7 +114,7 @@ import { ArrowRightAltSharp } from "@vicons/material";
 import { useSearchStore } from "@/stores/search";
 import { useUserStore } from "@/stores/user";
 import courseCardImg from "@/assets/landing-page/course-card-img.png";
-import SearchButton from "@/components/SearchButton.vue";
+// import SearchButton from "@/components/SearchButton.vue";
 const searchStore = useSearchStore();
 const userStore = useUserStore();
 const isLogin = ref(false);
@@ -130,7 +130,7 @@ async function getUser() {
     return;
   }
   const userData = await userStore.getUserData();
-  user.value.nickName = userData.nickname || "親愛的";
+  user.value.nickName = userData.name || "親愛的";
 }
 
 onMounted(() => {
